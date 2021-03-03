@@ -1,0 +1,45 @@
+.request-translator{
+    label{
+        font-weight: 100;
+    }
+
+    .label-filter{
+        font-size: 17px !important;
+        margin-top: 20px;
+    }
+
+    .time-radio{
+        .form-check{
+            margin-right: 10px;
+        }
+        #duration_amount{
+            width: auto;
+            display: inline;
+        }
+    }
+
+    .request-back{
+        margin-top: 30px;
+        a{
+            color: #333;
+            font-size: 14px;
+            i{
+                margin-right: 5px;
+                font-size: 18px;
+                position: relative;
+                top: 2px;
+            }
+        }
+    }
+
+    .service-price{
+        text-align: center;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    label.site_form{
+        width: 100%;
+    }
+
+}

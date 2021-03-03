@@ -1,0 +1,169 @@
+.translator-experience-form{
+    h6{
+        font-size: 18px;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+
+    .react-tags{
+        display: flex;
+        flex-direction: column;
+        border: 0px;
+        padding: 0px;
+        &__selected{
+            order: 1;
+            &-tag{
+                padding: 10px 20px;
+                border: 0px;
+                border-radius: 20px;
+                font-size: 13px !important;
+            }
+        }
+        &__search{
+            width: 100%;
+            border: 1px solid #D1D1D1;
+            input{
+                width: 100% !important;
+                height: 30px;
+                padding: 0px 10px;
+            }
+        }
+    }
+    
+    .experience-component{
+        .experience-container{
+            .top{
+                display: flex;
+                justify-content: space-between;
+                .head{
+                    .time{
+                        color: #AAA;
+                        font-size: 13px;
+                        margin-bottom: 0px;
+                    }
+                }
+                
+            }
+            .bottom{
+                border-top: 1px solid #D1D1D1;
+                padding-top: 10px;
+                font-size: 14px;
+                .description{
+                    margin-bottom: 0px;
+                }
+            }
+            padding: 15px 20px;
+            border: 1px solid #D1D1D1;
+            margin-bottom: 10px;
+
+        }
+        .new-exp{
+            padding: 10px 10px;
+            text-align: center;
+            border: 1px solid #D1D1D1;
+        }
+    }
+
+    .filter-language{
+        border: 0px;
+        padding-right: 0px;
+        padding-left: 0px;
+        select{
+            display: inline-block;
+            width: 20%;
+            font-size: 12px;
+            width: calc(50% - 44px);
+            background-color: #F3F3F3;
+            border: #F3F3F3;
+            height: 30px;
+        }
+        >div{
+            border: 1px solid #D1D1D1;
+            width: 100%;
+            margin-right: 5px;
+            padding: 2px;
+        }
+        button{
+            color: black !important;
+            background-color: #F3F3F3;
+            border: 1px solid #F3F3F3;
+            font-size: 12px;
+            &.switch{
+                width: 80px;
+                background-color: white;
+                border: 0px;
+                margin: 0px 4px;
+                position: relative;
+                top: 1px;
+                &:active{
+                    background-color: #F3F3F3 !important;
+                }
+            }
+            &:active{
+                background-color: white !important;
+            }
+            &.add{
+                height: 37px;
+            }
+            outline: none;
+            box-shadow: none !important;
+        }
+    }
+
+    .new-exp button{
+        background-color: white;
+        color: black;
+        font-size: 16px;
+        border: 0px;
+        outline: none;
+        box-shadow: none !important;
+        &:active{
+            background-color: white !important;
+            color: #F3F3F3 !important;
+        }
+    }
+
+    
+    .alert-danger{
+        margin-top: 20px;
+    }
+
+
+    .platform-select, .speciality-select{
+        display: flex;
+        select{
+            display: inline-block;
+            width: 20%;
+            font-size: 15px;
+            width: 100%;    
+            border-radius: 0px;
+        }
+
+        button{
+            color: black !important;
+            background-color: #F3F3F3;
+            border: 1px solid #F3F3F3;
+            font-size: 12px;
+
+            &.add{
+                height: 37px;
+                margin-left: 5px;
+            }
+            outline: none;
+            box-shadow: none !important;
+        }
+    }
+
+
+}
+
+.modal-content{
+
+    textarea{
+        padding: 10px;
+    }
+    .react-datepicker-wrapper input{
+        border: 1px solid #d5d5d5;
+        padding: 10px;
+    }
+}

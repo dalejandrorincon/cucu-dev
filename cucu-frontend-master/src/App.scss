@@ -1,0 +1,432 @@
+.pagination-container{
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    text-align: right;
+    .pagination{
+        margin-right: 30px;
+        text-align: center;
+        display: inline-block;
+        li{
+            display: inline;
+            cursor: pointer;
+            font-size: 15px;
+            a{
+                padding: 5px 7px;
+                &:focus{
+                    outline: 0;
+                }
+            }
+            &.active{
+                a{
+                    background-color: black;
+                    color: white;
+                    font-size: 14px;
+                    border-radius: 3px;
+                }
+            }
+        }
+    }
+  }
+  
+.badge.service-types{
+    border: 0px;
+    font-weight: 100;
+    &.success{
+        color: #58BD72;
+        background-color: #E7F8EC;
+    }
+    &.paid{
+        color: #376EAF;
+        background-color: #E7F2F8;
+    }
+    &.accepted{
+        color: #9453F9;
+        background-color: #F9F5FF;
+    }
+    &.danger{
+        color: #D03B3B;
+        background-color: #FFF2F2;
+    }
+    &.cancelled{
+        background-color: #FFFEF4;
+    }
+}
+
+.alert-dismissable.alert-success{
+    background-color: #25A847;
+    i{
+        color: white;
+        opacity: 1;
+        font-size: 22px;
+    }
+    button{
+        display: none;
+    }
+    h4{
+        font-size: 16px;
+        color: white;
+        margin-bottom: 0px;
+        font-weight: bold;
+    }
+}
+
+.upload{
+    position: absolute;
+    border-radius: 50%;
+    bottom: 5px;
+    left: 60px;
+    &-btn{
+        display: none;
+        &-label{
+            cursor: pointer;
+            background-color: #863DF9;
+            padding: 5px 10px;
+            border-radius: 50%;
+            color: white;
+            
+        }
+    }
+}
+
+.cucu-button{
+    background-color: #863DF9;
+    &:hover, &:active, &:focus{
+        background-color: #6934be !important;
+    }
+    &:disabled{
+        background-color: #9a5efc;
+    }
+
+}
+
+.cucu-dropdown{
+    button{
+        color: #863df9;
+        border-color: #863df9;
+        background-color: transparent;
+        &:after{
+            display: none;
+        }
+        &:hover, &:active, &:focus{
+            background-color: #863df9 !important;
+            color: white;
+            box-shadow: none;
+        }
+    }
+}
+
+.ico-user{
+    object-fit: cover;
+}
+
+nav.navbar{
+    padding-bottom: 0px;
+}
+.navbar-nav{
+    .item-menu{
+
+        p{
+            color: #B7B7B7;
+            font-size: 18px;
+        }
+        &.active{
+            p{
+                color: #212529;
+                font-family: "Acumin Pro";
+                font-weight: normal;
+            }
+            border-bottom: 3px solid #863DF9;
+        }
+        @media screen and (min-width: 768px) {
+            padding: 10px 30px !important;
+        }
+    }
+    
+}
+
+.flag-select{
+  
+    .flag-select__btn{
+        color: black !important;
+        font-size: 18px !important;
+
+        &:focus{
+            outline: none;
+        }
+        
+      
+        &:after{
+            border-top: 5px solid #4d4d4d !important;
+            border-left: 6px solid transparent !important;
+            border-right: 6px solid transparent !important;
+            border-bottom: 0;
+            position: relative;
+            top: 0px;
+        }
+    }
+
+    &__option{
+        margin: 0px 0 !important;
+        &__icon{
+            vertical-align: baseline;
+        }
+    }
+
+    &__options{
+        right: 0px;
+    }
+      
+}
+
+.login-container .flag-select{
+    float: right;
+    position: relative;
+    top: 7px;
+}
+
+.signup .flag-select{
+    float: right;
+    position: relative;
+    top: 22px
+}
+
+.filter-label-arrow{
+    position: absolute;
+    right: 20px;
+}
+
+span.required{
+    color: red;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.Language-panel, 
+.specialities-panel ,
+.platforms-panel ,  
+.dropzone-container{
+    .item{
+        border: 1px solid #D1D1D1;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        p{
+            margin-bottom: 0px;
+            padding: 10px
+        }
+        .filename{
+            color: black;
+            text-decoration: underline;
+        }
+        button{
+            background-color: #F3F3F3;
+            color: black;
+            border: 0px;
+            padding: 5px 10px
+        }
+    }
+
+}
+
+@media screen and (min-width: 768px) {
+    .navbar-nav .mobile-item{
+        display: none;
+    }
+    .services-list .mobile-item, 
+    .transactions-list .mobile-item, 
+    .availabilities-list .mobile-item
+    .translators-list .mobile-item,
+    .table-translators .mobile-item
+    {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .login-container, .signup-container, .recover-container{
+        .row{
+            flex-direction: column;
+        }
+    }
+    .navbar-nav.desktop-item, .availabilities-list .desktop-item{
+        display: none;
+    }   
+    nav.navbar{
+        padding: 7px 10px 0px;
+        .flag-select__option--placeholder{
+            padding: 0px;
+            .flag-select__option__label{
+                font-size: 0px;
+            }
+        } 
+        display: block;
+        >.navbar-nav, .navbar-toggler, .flag-select{
+            float: right;
+            margin-left: 0px;
+            .nav-item{
+                position: relative;
+                top: 5px;
+                right: 5px
+            }
+        }
+        >.navbar-brand{
+            position: relative;
+            bottom: 5px;
+            padding-bottom: 10px;
+        }
+        .item-menu{
+            p{
+                margin-top: 20px;
+            }
+        }
+    }
+    .services-list, .transactions-list{
+        .filters.row{
+            flex-direction: column;
+            .react-datepicker-wrapper{
+                padding-bottom: 15px;
+            }
+        }
+        .user-container{
+            padding: 0px !important;
+            text-align: center;
+            .userIcon{
+                flex-direction: column;
+                font-size: 12px;
+                .name{
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    width: 120px;
+                }
+            }
+        }
+        .table-services>tr>:not(:first-child){
+            display: none;
+        }
+        .mobile-item{
+            display: table-cell !important;
+            font-size: 14px;
+        }
+        .table td.mobile-item{
+            padding-top: 10px !important;
+            p{
+                margin-bottom: 5px;
+            }
+            button{
+                margin-top: 10px;
+                width: 100%;
+            }
+
+        }
+    }
+
+    .translator-profile.container{
+        .translator-profile-row{
+            flex-direction: column;
+            margin-right: 0px;
+            margin-left: 0px;
+            padding: 0px;
+
+            .menu-profile{
+                width: 100%;
+                margin-left: 0px;
+            }
+            .item-active-profile{
+                margin: 0px;
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+            }
+            .container-profile{
+                flex-direction: column;
+                .services, .cucucreditos{
+                    text-align: left;
+                }
+            }
+            padding-bottom: 10px;
+            
+        }
+    }
+
+
+
+    .pagination-container{
+        text-align: center;
+        .pagination{
+            margin-right: 0px;
+            li{
+                font-size: 12px;
+                &.active a{
+                    font-size: 12px
+                }
+            }
+        } 
+    } 
+
+    .modal.right.fade .modal-dialog{
+        width: 100%;
+    }
+    .mr-auto.navbar-nav{
+        margin-left: 0px;
+    }
+
+    .profile-client-container .row{
+        margin: 0px;
+        flex-direction: column;
+
+        .container-profile{
+            .services, .cucucreditos{                
+                text-align: left;
+            }
+        }
+
+        &.col-padding{
+            padding: 0px;
+        }
+        .menu-profile{
+            margin-left: 0px;
+            border: 0px;
+        }
+        .item-active-profile{
+            margin: 0px;
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+
+        }
+    }
+    .payment-page #payment-form{
+        padding: 0px;
+    }
+    
+}
+
+@media screen and (max-width: 500px) {
+    .login-container{
+        .login{
+            padding: 0px 15px;
+            .flag-select{
+                float: none;
+                text-align: center;
+            }
+        }
+    }
+    .signup-container{
+        padding-bottom: 50px;
+        .signup{
+            padding: 0px 15px;
+            .flag-select{
+                float: none;
+                text-align: center;
+            }
+            .button-type{
+                margin-top: 10px;
+            }
+        }
+    }
+    .recover-container{
+        .recover{
+            padding: 0px 15px;
+        }
+    }
+}

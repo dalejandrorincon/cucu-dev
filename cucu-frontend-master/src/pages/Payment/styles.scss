@@ -1,0 +1,22 @@
+.payment-page{
+    h3{
+        margin: 20px 0px;
+        font-weight: bold;
+    }
+    h4{
+        margin-bottom: 30px;
+    }
+
+    #payment-form{
+        padding: 50px 250px;
+        border: 1px solid #ccc;
+
+        #card-element{
+            margin-bottom: 10px;
+        }
+    }
+
+    .hidden {
+        display: none;
+    }
+}

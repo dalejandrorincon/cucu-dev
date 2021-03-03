@@ -1,0 +1,51 @@
+
+.translator-profile-main{
+    .user-name{
+        font-size: 26px;
+        line-height: 20px;
+        font-weight: bold;
+    }
+    .startcontainer{
+        width: 180px;
+        .fa-start{
+            color: #863DF9 !important;
+            font-size: 24px !important;
+            margin-right: 10px !important;
+        }
+        .name{
+            padding-top: 0px;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .profile-translator-client{
+        .translator-profile-main{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            .name{
+                font-size: 14px;
+                span{
+                    font-size: 18px;
+                }
+                .fa-start{
+                    font-size: 18px !important;
+                }
+            }
+        }
+        .row{
+            flex-direction: column;
+            margin: 0px;
+        }
+        .col-padding{
+            padding: 0px
+        }
+        .opinions{
+            border: 0px;
+            .opinion-container{
+                border: 0px;
+            }
+        }
+    }
+}

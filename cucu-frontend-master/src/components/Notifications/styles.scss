@@ -1,0 +1,41 @@
+.notifications-modal .modal-body{
+    padding: 0px !important;
+
+    .item{
+        border-bottom: 2px solid #EAEAEA;
+        padding: 20px 30px;
+        position: relative;
+        a{
+            color: #863df9;
+        }
+        p, h5{
+            margin-bottom: 10px;
+        }
+    }
+
+    .read-indicator.unread{
+        position: absolute;
+        height: 15px;
+        width: 15px;
+        background-color: #863df9;
+        border-radius: 50%;
+        right: 20px;
+        top: 60px;
+    }
+}
+
+.notification-indicator{
+    position: relative;
+    &.pending::after{
+        content: ' \25CF';
+        font-size: 25px;
+        color: #863df9;
+        position: absolute;
+        top: -12px;
+        right: -2px;
+    }
+}
+
+.logout-modal{
+    text-align: center;
+}

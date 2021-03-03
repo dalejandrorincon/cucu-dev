@@ -1,0 +1,43 @@
+.rate-modal{
+    .form-container{
+        max-width: 400px;
+        .form-group{
+            padding-top: 15px;
+        }
+    }
+    .modal-dialog{
+        max-width: 500px;
+    }
+    .modal-body{
+        padding-bottom: 0px;
+        font-size: 15px;
+        text-align: center;
+
+        .image-profile{
+            height: 70px;
+            width: 70px;
+        }
+        
+        .fa-start{
+            color: #863DF9 !important;
+        }
+
+        .user-name{
+            font-size: 18px;
+        }
+
+    }
+    .modal-footer{
+        border-top: 0px;
+        padding-top: 0px;
+        justify-content: center;
+        padding-bottom: 30px;
+        button{
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 3px;
+            font-size: 17px;
+        }
+    }
+}

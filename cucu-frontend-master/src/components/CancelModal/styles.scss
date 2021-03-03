@@ -1,0 +1,30 @@
+.cancel-modal{
+    .form-container{
+        max-width: 400px;
+        .form-group{
+            padding-top: 15px;
+        }
+    }
+    .modal-dialog{
+        max-width: 500px;
+    }
+    .modal-body{
+        padding-bottom: 0px;
+        font-size: 15px;
+
+    }
+    .modal-footer{
+        border-top: 0px;
+        padding-top: 0px;
+        justify-content: center;
+        padding-bottom: 30px;
+        button{
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 3px;
+            font-size: 17px;
+        }
+    }
+    
+}
