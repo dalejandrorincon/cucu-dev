@@ -877,6 +877,31 @@ nav a:hover {
   color: #2d2d2d;
   opacity: 1;
 }
+a.btn-donwload:hover{
+text-decoration: none;
+cursor: pointer;
+color: white;
+background-color: #8b4bf1;
+}
+.btn-donwload{
+ color: white;
+ background-color: #863df9;
+ border-radius: 5px;
+ padding: 10px 20px;
+}
+.see-cer.badge-light{
+  color: white;
+  background-color: #8b4bf1;
+  cursor: pointer;
+  margin-bottom: 5px;
+
+}
+.see-cer.badge-light:hover{
+  
+  background-color: #a06bf7;
+  cursor: pointer;
+
+}
 
 .opinion-modal {
   font: normal normal bold 20px/28px Acumin Pro;

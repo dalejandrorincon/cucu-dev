@@ -227,7 +227,14 @@
             "rate-min": "minute",
             "update-password-success": "Password updated successfully",
             "update-password-error": "Current password must be correct",
-            "years-of-experience": "years of experience"
+            "years-of-experience": "years of experience",
+            "email":"email",
+            "phone":"phone",
+            "work_experience":"Work experience",
+            "certifications": "Certifications",
+            "total_services" : "Total services",
+            "seeReviews" : "See all",
+            "dwn-certificate": "Donwload Certificate"
         },
         "payment":{
             "pay": "Pay",
@@ -383,7 +390,8 @@
             "id-number-foreign": "Foreign ID Number",
             "account-country": "Account country",
             "account-savings": "Savings account",
-            "account-checking": "Checking account"
+            "account-checking": "Checking account",
+            "bank-title": "Bank information" 
         },
         "request":{
             "cancel-request": "Cancel request",

@@ -23,7 +23,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { getLang } from '../../utils/constants';
 
-const baseUri = process.env.REACT_APP_API_URL;
+const baseUri = "http://localhost:3001/api";
 
 function ForgotPasswordPage() {
   const [successfulSendCode, setSuccessfulSendCode] = useState(false);

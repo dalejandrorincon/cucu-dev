@@ -59,6 +59,7 @@ function TranslatorsPage({
 }: Props) {
   const [valueRange, setValueRange] = useState([20, 40]);
   const [translators, setTranslators] = useState([]);
+  const [total_services, setTotalservices] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [specialities, setSpecialities] = useState([]);
 
@@ -122,7 +123,7 @@ function TranslatorsPage({
       setSpecialities(res)
     })
   }
-
+  
   const getRandomized = () =>{
     let sort =[
       'firstname',
@@ -130,7 +131,8 @@ function TranslatorsPage({
       'email',
       'rate_minute',
       'rate_hour',
-      'created_at'
+      'created_at',
+      
     ]
     let randomSort = Math.floor(Math.random() * sort.length);
 
@@ -208,11 +210,15 @@ function TranslatorsPage({
       setTranslators(res.users);
       setData(res);
 			setPageCount(res.pages)
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.log(err)
     })
   };
+  
+  const getTotalServices = ()=> {
 
+  }
 
   useEffect(() => {
     getLanguages();
@@ -558,6 +564,8 @@ function TranslatorsPage({
                                   <div className="star-container">
                                     <p className="name">
                                       {ele.firstname} {ele.lastname}
+                                      <p><strong>${ele.rate_hour}/{t('translator_profile.rate-hr')} | $
+                                          {ele.rate_minute}/{t('translator_profile.rate-min')}</strong></p>
                                       <div>
                                         <Rating
                                             emptySymbol="fa fa-star-o fa-2x fa-start"

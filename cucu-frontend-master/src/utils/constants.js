@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import i18n from 'i18next';
 
-export const url = process.env.REACT_APP_API_URL
-export const socket_url = process.env.REACT_APP_SOCKET_URL
+export const url = "http://localhost:3001/api"
+export const socket_url = "http://localhost:8000/"
 
 export const stripe_publishable = process.env.REACT_APP_STRIPE_PUBLISHABLE
 
-export const socket = socketIOClient(process.env.REACT_APP_SOCKET_URL);
+export const socket = socketIOClient("http://localhost:8000/");
 
 export const getUserType = () =>{
     let role=""

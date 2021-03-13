@@ -19,7 +19,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { isParseable } from "../../utils/constants"
 import { useTranslation } from 'react-i18next';
 
-const baseUri = process.env.REACT_APP_API_URL;
+const baseUri = "http://localhost:3001/api";
 
 export default function ExperienceModal(props) {
 

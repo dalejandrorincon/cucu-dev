@@ -29,8 +29,10 @@ import Header from "../../components/Header";
 import { useTranslation } from 'react-i18next';
 import i18next from "i18next";
 import * as CountriesAPI from '../../api/countries';
+import { ImageGradient } from "material-ui/svg-icons";
 
-const baseUri = process.env.REACT_APP_API_URL;
+
+const baseUri = "http://localhost:3001/api";
 
 interface Props {
   counter: number;
@@ -47,8 +49,10 @@ function ProfileTranslatorPage({
   const history = useHistory();
   const { id } = useParams();
   const [isVisible, setisVisible] = useState(false);
-  const [countries, setCountries] = useState<any>([])
-
+  const [isVisibleCertificate, setisVisibleCertificate] = useState(false);
+  const [certificate, setCertificate] = useState<any>([]);
+  const [countries, setCountries] = useState<any>([]);
+  const [reviews, setReviews] = useState<any>([]);
   const [translators, setTranslators] = useState<any>({});
 	const { t, i18n } = useTranslation();
   const getTranslators = () => {
@@ -65,6 +69,7 @@ function ProfileTranslatorPage({
         .then((response) => response.json())
         .then((responseJson) => {
           setTranslators(responseJson.user);
+          console.log(responseJson.user)
         })
         .catch((error) => {
           console.log(error);
@@ -72,7 +77,20 @@ function ProfileTranslatorPage({
     } catch (error) {
       console.log("Error", error);
     }
+    fetch(`${baseUri}/reviews/user/${id}`, {
+      method: "GET",
+      headers: headers,
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        setReviews(responseJson);
+        console.log(responseJson)
+      })
   };
+ 
+    
+      
+
 
   const getCountries = () => {
     CountriesAPI.getCountries({lang: i18n.language}).then((res) => {
@@ -145,6 +163,9 @@ function ProfileTranslatorPage({
                               ${translators?.rate_hour}/{t('translator_profile.rate-hr')} | $
                               {translators?.rate_minute}/{t('translator_profile.rate-min')}
                             </p>
+                            <p className="price-hour">
+                            {t('translator_profile.total_services')}: {translators?.total_services}
+                            </p>
                           </Col>
                           <Col>
                             <Submit
@@ -208,15 +229,40 @@ function ProfileTranslatorPage({
                           <Col className="col-md-12 col-margin">
                             <Row className="border-cont">
                               <Col>
-                                <p>{t('translator_profile.rate-hour')}</p>
+                                <p>{t('translator_profile.phone')}</p>
                                 <span className="text-profile-item">
-                                  ${translators?.rate_hour}
+                                  {translators?.phone}
                                 </span>
                               </Col>
                               <Col>
-                                <p>{t('translator_profile.rate-minute')}</p>
+                                <p>{t('translator_profile.email')}</p>
+                                  {translators?.email}
+                              </Col>
+                            </Row>
+                          </Col>
+                          <Col className="col-md-12 col-margin">
+                            <Row className="border-cont">
+                              <Col>
+                                <p>{t('translator_profile.work_experience')}</p>
                                 <span className="text-profile-item">
-                                  ${translators?.rate_minute}
+                                {translators?.work_experience?.map((xp: any) => (
+                                  <span className="badge badge-light">
+                                    {xp.company}
+                                  </span>
+                                ))}
+                                </span>
+                              </Col>
+                              <Col>
+                                <p>{t('translator_profile.certifications')}</p>
+                                <span className="text-profile-item">
+                                {translators?.certifications?.map((cert: any) => (
+                                  <a onClick={() => {
+                                    setisVisibleCertificate(true);
+                                    setCertificate(JSON.parse(cert.url).map((img)=>(img)))
+                                  }}className="see-cer badge badge-light">
+                                    {`${cert.name}`}
+                                  </a>
+                                ))}
                                 </span>
                               </Col>
                             </Row>
@@ -227,103 +273,17 @@ function ProfileTranslatorPage({
                       <Col className="col-md-3 opinions">
                         <div className="opinion-container">
                           <div className="opinion-title">
-                            <p>{t('translator_profile.opinions-title')}</p>
-                            {/* <a
+                            <p>{t('translator_profile.opinions-title')} ({reviews?.total})</p>
+                            <a
                               className="ver-todas"
                               onClick={() => {
                                 setisVisible(true);
                               }}
                             >
-                              Ver todas
-                            </a> */}
+                              {t('translator_profile.seeReviews')}
+                            </a>
                           </div>
-                          <p>{translators?.rating} {t('translator_profile.opinions')}</p>
                         </div>
-                        {/* <div>
-                          <p className="name">
-                            <div className="opinion-name">
-                              <p>
-                                Emilia{" "}
-                                <span className="fa fa-star active-green"></span>
-                                <span className="fa fa-star active-green"></span>
-                                <span className="fa fa-star-o active-green"></span>
-                                <span className="fa fa-star-o active-green"></span>
-                                <span className="fa fa-star-o active-green"></span>
-                              </p>
-                              <span className="opinion-date">12/09/19</span>
-                            </div>
-                            <span className="text-profile-item">
-                              {" "}
-                              Loved Chef Kreuther and his techniques with this
-                              wonderful recipe.
-                            </span>
-                            <div></div>
-                          </p>
-                        </div>{" "}
-                        <div>
-                          <p className="name">
-                            <div className="opinion-name">
-                              <p>
-                                Emilia{" "}
-                                <span className="fa fa-star active-green"></span>
-                                <span className="fa fa-star active-green"></span>
-                                <span className="fa fa-star-o active-green"></span>
-                                <span className="fa fa-star-o active-green"></span>
-                                <span className="fa fa-star-o active-green"></span>
-                              </p>
-                              <span className="opinion-date">12/09/19</span>
-                            </div>
-                            <span className="text-profile-item">
-                              {" "}
-                              Loved Chef Kreuther and his techniques with this
-                              wonderful recipe.
-                            </span>
-                            <div></div>
-                          </p>
-                        </div>{" "}
-                        <div>
-                          <p className="name">
-                            <div className="opinion-name">
-                              <p>
-                                Emilia{" "}
-                                <span className="fa fa-star active-green"></span>
-                                <span className="fa fa-star active-green"></span>
-                                <span className="fa fa-star-o active-green"></span>
-                                <span className="fa fa-star-o active-green"></span>
-                                <span className="fa fa-star-o active-green"></span>
-                              </p>
-                              <span className="opinion-date">12/09/19</span>
-                            </div>
-                            <span className="text-profile-item">
-                              {" "}
-                              Loved Chef Kreuther and his techniques with this
-                              wonderful recipe.
-                            </span>
-                            <div></div>
-                          </p>
-                        </div>
-                        <div>
-                          <p className="name">
-                            <div className="opinion-name">
-                              <p>
-                                Emilia{" "}
-                                <span className="fa fa-star active-green"></span>
-                                <span className="fa fa-star active-green"></span>
-                                <span className="fa fa-star-o active-green"></span>
-                                <span className="fa ffa-star-o active-green"></span>
-                                <span className="fa fa-star-o active-green"></span>
-                                <span className="fa fa-star-o active-green"></span>
-                              </p>
-                              <span className="opinion-date">12/09/19</span>
-                            </div>
-                            <span className="text-profile-item">
-                              {" "}
-                              Loved Chef Kreuther and his techniques with this
-                              wonderful recipe.
-                            </span>
-                            <div></div>
-                          </p>
-                        </div> */}
                       </Col>
                     </Row>
                   </WellContainer>
@@ -332,6 +292,38 @@ function ProfileTranslatorPage({
             </PasswordRecover>
           </Col>
         </RowRecover>
+        
+          {certificate?.map((rev: any) => (
+            <Modal
+            show={isVisibleCertificate}
+            onHide={() => {
+              setisVisibleCertificate(false);
+            }}
+            autoFocus
+            keyboard
+            size="lg"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>{t('translator_profile.certifications')}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="mx-auto">
+              
+              <div className="w-100" >
+                    { rev.url.includes(".pdf") == true &&
+                      <a className="w-50 btn-donwload" href={rev.url} target="_blank">{t('translator_profile.dwn-certificate')}</a>
+                    }
+                    {
+                      rev.url.includes(".pdf") == false &&
+                      <img className="img-fluid" src={rev.url}></img>
+                    }
+              </div>
+              </Modal.Body>
+        </Modal>
+          ))}  
+               
+
+            
+          
         <Modal
           className="right"
           show={isVisible}
@@ -342,14 +334,13 @@ function ProfileTranslatorPage({
           keyboard
         >
           <Modal.Header closeButton>
-            <Modal.Title>Opiniones</Modal.Title>
+            <Modal.Title>{t('translator_profile.opinions-title')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="opinion-container">
               <p className="opinion-modal">
                 {" "}
-                <span className="fa fa-star active-green"></span> 4.44 (23
-                opiniones)
+                <span className="fa fa-star active-green"></span> {translators?.rating} ({reviews?.total} {t('translator_profile.opinions')})
               </p>
               <Submit
                 type="button"
@@ -358,90 +349,69 @@ function ProfileTranslatorPage({
                   history.push(`/request-translator/${id}`);
                 }}
               >
-                Solicitar servicio
+                {t('translator_profile.request-service')}
               </Submit>
             </div>
-            <div>
-              <p className="name">
-                <div className="opinion-name">
-                  <p>
-                    Emilia <span className="fa fa-star active-green"></span>
-                    <span className="fa fa-star active-green"></span>
-                    <span className="fa fa-star-o active-green"></span>
-                    <span className="fa fa-star-o active-green"></span>
-                    <span className="fa fa-star-o active-green"></span>
-                  </p>
-                  <span className="opinion-date">12/09/19</span>
-                </div>
-                <span className="text-profile-item">
-                  {" "}
-                  Loved Chef Kreuther and his techniques with this wonderful
-                  recipe.
-                </span>
-                <div></div>
-              </p>
-            </div>{" "}
-            <div>
-              <p className="name">
-                <div className="opinion-name">
-                  <p>
-                    Emilia <span className="fa fa-star active-green"></span>
-                    <span className="fa fa-star active-green"></span>
-                    <span className="fa fa-star-o active-green"></span>
-                    <span className="fa fa-star-o active-green"></span>
-                    <span className="fa fa-star-o active-green"></span>
-                  </p>
-                  <span className="opinion-date">12/09/19</span>
-                </div>
-                <span className="text-profile-item">
-                  {" "}
-                  Loved Chef Kreuther and his techniques with this wonderful
-                  recipe.
-                </span>
-                <div></div>
-              </p>
-            </div>{" "}
-            <div>
-              <p className="name">
-                <div className="opinion-name">
-                  <p>
-                    Emilia <span className="fa fa-star active-green"></span>
-                    <span className="fa fa-star active-green"></span>
-                    <span className="fa fa-star-o active-green"></span>
-                    <span className="fa fa-star-o active-green"></span>
-                    <span className="fa fa-star-o active-green"></span>
-                  </p>
-                  <span className="opinion-date">12/09/19</span>
-                </div>
-                <span className="text-profile-item">
-                  {" "}
-                  Loved Chef Kreuther and his techniques with this wonderful
-                  recipe.
-                </span>
-                <div></div>
-              </p>
-            </div>
-            <div>
-              <p className="name">
-                <div className="opinion-name">
-                  <p>
-                    Emilia <span className="fa fa-star active-green"></span>
-                    <span className="fa fa-star active-green"></span>
-                    <span className="fa fa-star-o active-green"></span>
-                    <span className="fa ffa-star-o active-green"></span>
-                    <span className="fa fa-star-o active-green"></span>
-                    <span className="fa fa-star-o active-green"></span>
-                  </p>
-                  <span className="opinion-date">12/09/19</span>
-                </div>
-                <span className="text-profile-item">
-                  {" "}
-                  Loved Chef Kreuther and his techniques with this wonderful
-                  recipe.
-                </span>
-                <div></div>
-              </p>
-            </div>
+            {reviews?.reviews?.map((rev: any) => (
+              <div>
+                <p className="name">
+                  <div className="opinion-name">
+                    { rev.grade == 1 &&
+                      <p>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star-o active-green"></span>
+                      <span className="fa fa-star-o active-green"></span>
+                      <span className="fa fa-star-o active-green"></span>
+                      <span className="fa fa-star-o active-green"></span>
+                    </p>
+                    }
+                    { rev.grade == 2 &&
+                      <p>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star-o active-green"></span>
+                      <span className="fa fa-star-o active-green"></span>
+                      <span className="fa fa-star-o active-green"></span>
+                    </p>
+                    }
+                    { rev.grade == 3 &&
+                      <p>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star-o active-green"></span>
+                      <span className="fa fa-star-o active-green"></span>
+                    </p>
+                    }
+                    { rev.grade == 4 &&
+                      <p>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star-o active-green"></span>
+                    </p>
+                    }
+                    { rev.grade == 5 &&
+                      <p>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star active-green"></span>
+                      <span className="fa fa-star active-green"></span>
+                    </p>
+                    }
+                  
+                    
+                    <span className="opinion-date">{rev.created_at.substr(0,rev.created_at.length-14)}</span>
+                  </div>
+                  <span className="text-profile-item">
+                    {rev.description}
+                  </span>
+                  <div></div>
+                </p>
+              </div>
+            ))}
           </Modal.Body>
         </Modal>
       </Container>

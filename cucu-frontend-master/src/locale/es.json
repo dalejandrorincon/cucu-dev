@@ -226,7 +226,14 @@
             "rate-min": "minuto",
             "update-password-success": "Contraseña actualizada exitosamente",
             "update-password-error": "La contraseña actual debe ser correcta",
-            "years-of-experience": "años de experiencia"
+            "years-of-experience": "años de experiencia",
+            "email":"Correo electrónico",
+            "phone":"Teléfono",
+            "work_experience":"Experiencia laboral",
+            "certifications": "Certificaciones",
+            "total_services" : "Traducciones realizadas",
+            "seeReviews" : "Ver todas",
+            "dwn-certificate": "Descargar certificado"
         },
         "payment":{
             "pay": "Pagar",
@@ -380,7 +387,8 @@
             "id-number-foreign": "Cédula de extranjería",
             "account-country": "País de la cuenta",
             "account-savings": "Ahorro",
-            "account-checking": "Corriente"
+            "account-checking": "Corriente",
+            "bank-title": "Información bancaria" 
         },
         "request":{
             "cancel-request": "Cancelar solicitud",
