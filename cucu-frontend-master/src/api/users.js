@@ -116,7 +116,7 @@ export const saveFile = (file) => {
 export const getTranslators = (payload, id) => {
   const URL = `/users/translators`;
   console.log(payload)
-  return api("https://api.cucu.us/api/users/translators", {
+  return api(URL, {
     method: 'GET',
     headers: {
       'content-type': 'application/json',

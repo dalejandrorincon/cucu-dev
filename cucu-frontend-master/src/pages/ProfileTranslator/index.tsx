@@ -31,8 +31,7 @@ import i18next from "i18next";
 import * as CountriesAPI from '../../api/countries';
 import { ImageGradient } from "material-ui/svg-icons";
 
-
-const baseUri = "http://localhost:3001/api";
+const baseUri = process.env.REACT_APP_API_URL;
 
 interface Props {
   counter: number;
@@ -69,7 +68,6 @@ function ProfileTranslatorPage({
         .then((response) => response.json())
         .then((responseJson) => {
           setTranslators(responseJson.user);
-          console.log(responseJson.user)
         })
         .catch((error) => {
           console.log(error);
@@ -87,10 +85,6 @@ function ProfileTranslatorPage({
         console.log(responseJson)
       })
   };
- 
-    
-      
-
 
   const getCountries = () => {
     CountriesAPI.getCountries({lang: i18n.language}).then((res) => {
@@ -284,6 +278,7 @@ function ProfileTranslatorPage({
                             </a>
                           </div>
                         </div>
+                    
                       </Col>
                     </Row>
                   </WellContainer>

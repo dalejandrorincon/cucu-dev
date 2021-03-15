@@ -59,7 +59,7 @@ function TranslatorsPage({
 }: Props) {
   const [valueRange, setValueRange] = useState([20, 40]);
   const [translators, setTranslators] = useState([]);
-  const [total_services, setTotalservices] = useState([]);
+ 
   const [languages, setLanguages] = useState([]);
   const [specialities, setSpecialities] = useState([]);
 
@@ -123,7 +123,7 @@ function TranslatorsPage({
       setSpecialities(res)
     })
   }
-  
+
   const getRandomized = () =>{
     let sort =[
       'firstname',
@@ -131,8 +131,7 @@ function TranslatorsPage({
       'email',
       'rate_minute',
       'rate_hour',
-      'created_at',
-      
+      'created_at'
     ]
     let randomSort = Math.floor(Math.random() * sort.length);
 
@@ -210,15 +209,11 @@ function TranslatorsPage({
       setTranslators(res.users);
       setData(res);
 			setPageCount(res.pages)
-    })
-    .catch((err) => {
+    }).catch((err) => {
       console.log(err)
     })
   };
-  
-  const getTotalServices = ()=> {
 
-  }
 
   useEffect(() => {
     getLanguages();

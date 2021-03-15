@@ -23,7 +23,7 @@ import {
 
 import { Link, useHistory, useParams } from "react-router-dom";
 import moment from "moment";
-const baseUri = "http://localhost:3001/api";
+const baseUri = process.env.REACT_APP_API_URL;
 
 
 interface Props {

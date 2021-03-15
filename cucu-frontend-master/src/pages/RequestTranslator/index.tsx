@@ -26,7 +26,7 @@ import Header from "../../components/Header";
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
-const baseUri = "http://localhost:3001/api";
+const baseUri = process.env.REACT_APP_API_URL;
 
 function RequestTranslatorPage() {
   const history = useHistory();

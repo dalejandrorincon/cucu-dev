@@ -40,7 +40,7 @@ import Header from "../../components/Header";
 import * as UsersAPI from '../../api/users';
 import { useTranslation } from 'react-i18next';
 
-const baseUri = "http://localhost:3000";
+const baseUri = process.env.REACT_APP_API_URL;
 
 interface Props {
   counter: number;
