@@ -40,7 +40,7 @@ export default function TranslatorServices() {
 			name: ""
 		},
 		onSubmit: values => {
-			console.log("values")
+			//console.log("values")
 		},
 		//validationSchema: validationSchema,
 		validateOnBlur: true,
@@ -104,7 +104,7 @@ export default function TranslatorServices() {
 			options.name = options?.name?.toLowerCase()
 		}
 		ServicesAPI.getServices(type, localStorage.getItem("token"), options).then((res) => {
-			console.log(res.results)
+			//console.log(res.results)
 			setServices(res.results)
 			setPageCount(res.pages)
 			getNotificationService(res.results)
@@ -112,7 +112,7 @@ export default function TranslatorServices() {
 	};
 
 	const handlePageClick = data => {
-		console.log(data)
+		//console.log(data)
 		let selected = data.selected;
 		setOptions({ ...options, page: selected + 1 });
 	};
@@ -138,7 +138,7 @@ export default function TranslatorServices() {
 	}
 
 	const responsiveFilter = () =>{
-		console.log(getWindowDimensions())
+		//console.log(getWindowDimensions())
 		if (getWindowDimensions()>767){
 		  setOpenFilter(true)
 		}

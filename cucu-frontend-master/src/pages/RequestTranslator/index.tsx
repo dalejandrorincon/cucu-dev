@@ -127,7 +127,7 @@ function RequestTranslatorPage() {
   }, []);
 
   const getTranslator = () => {
-    UsersAPI.getUser({}, translatorId).then((res) => {
+    UsersAPI.getUser({}, translatorId, localStorage.getItem("token")).then((res) => {
       setTranslator(res.user)
     })
   }
@@ -152,9 +152,9 @@ function RequestTranslatorPage() {
       let end = moment(element.from).startOf("day")
       let diff = start.diff(end, 'days') 
       if(diff>1){
-        console.log(start)
-      console.log(end)
-      console.log(diff)
+        //console.log(start)
+      //console.log(end)
+      //console.log(diff)
         for (let i = 1; i < diff; i++) {
           exclusions.push(moment(element.from).add(i, "days").toDate())          
         }
@@ -166,7 +166,7 @@ function RequestTranslatorPage() {
   const changeExcludedDate = (e) => {
     let excluded : Array<any> = []
     let currentDay = e
-    console.log(unavailabilities)
+    //console.log(unavailabilities)
     unavailabilities.forEach(element => {
 
       if(
@@ -209,7 +209,7 @@ function RequestTranslatorPage() {
     let payload = { ...values, files_urls: JSON.stringify(files_urls), date: date }
 
     ServicesAPI.createService(localStorage.getItem("token"), payload).then((res) => {
-      console.log(res)
+      //console.log(res)
       setButtonState({ label: t('request.request-service'), disabled: false })
       history.push("/services")
     }).catch((err) => {
@@ -237,7 +237,7 @@ function RequestTranslatorPage() {
   const removeFile = (file, index) => {
     let newFiles = [...myFiles]
     newFiles.splice(index, 1)
-    console.log(newFiles)
+    //console.log(newFiles)
     setMyFiles(newFiles)
   }
 
@@ -475,7 +475,7 @@ function RequestTranslatorPage() {
                           formik.setFieldTouched('date_day');
                           formik.setFieldValue('date_day', e);
                           changeExcludedDate(e)
-                          console.log(e)
+                          //console.log(e)
                         }}
                         excludeDates={excludedDates}
                         minDate={new Date()}
@@ -491,7 +491,7 @@ function RequestTranslatorPage() {
                         onChange={(e) => {
                           formik.setFieldTouched('date_time');
                           formik.setFieldValue('date_time', e)
-                          console.log(e)
+                          //console.log(e)
                         }}
                         showTimeSelect
                         showTimeSelectOnly

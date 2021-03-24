@@ -93,13 +93,13 @@ export default function CertificationModal(props) {
             case "old":
                 let currentUrl = JSON.parse(formik.values.url)
                 currentUrl = currentUrl.filter(e=>e.name!=file)
-                console.log(currentUrl)
+                //console.log(currentUrl)
                 formik.setFieldValue("url",JSON.stringify(currentUrl))
                 break;
             case "new":
                 let newFiles = [...myFiles]
                 newFiles.splice(index, 1)
-                console.log(newFiles)
+                //console.log(newFiles)
                 setMyFiles(newFiles)
 
         }
@@ -166,7 +166,7 @@ export default function CertificationModal(props) {
                             onChange={ (e)=>{
                                 formik.setFieldTouched('date');
                                 formik.setFieldValue('date', e)
-                                console.log(e)
+                                //console.log(e)
                             }}
                            /*  customInput={
                               <ExampleCustomInput></ExampleCustomInput>

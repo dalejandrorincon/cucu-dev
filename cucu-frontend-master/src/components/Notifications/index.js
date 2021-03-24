@@ -41,7 +41,7 @@ export default function Notifications() {
 				}
 			});
 		}).catch((err) => {
-			console.log(err.response?.data?.message)
+			//console.log(err.response?.data?.message)
 			if(err.response?.data?.message=="TOKEN_EXPIRED"){
 				setSessionText(t('notifications.session-expired'))
 				setIsSessionClose(true)
@@ -57,11 +57,11 @@ export default function Notifications() {
 
 	const watchNotifications = () => {
 		socket.on("notifications", data => {
-			console.log(notifications)
+			//console.log(notifications)
 			setNotifications([data, ...notifications])
 			setPending(true)
 			setEmpty(null)
-			console.log([data, ...notifications])
+			//console.log([data, ...notifications])
 		});
 	}
 
@@ -80,7 +80,7 @@ export default function Notifications() {
 		NotificationsAPI.readNotifications(view, localStorage.getItem("token")).then((res) => {
 
 		}).catch((err) => {
-			console.log(err)
+			//console.log(err)
 		})
 	}
 	

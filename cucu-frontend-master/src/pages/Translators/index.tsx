@@ -59,7 +59,6 @@ function TranslatorsPage({
 }: Props) {
   const [valueRange, setValueRange] = useState([20, 40]);
   const [translators, setTranslators] = useState([]);
- 
   const [languages, setLanguages] = useState([]);
   const [specialities, setSpecialities] = useState([]);
 
@@ -85,7 +84,7 @@ function TranslatorsPage({
   const [value, setValue] = useState([0, 120]);
 
   const [minHour, setMinHour] = useState(40);
-  const [maxHour, setMaxHour] = useState(100);
+  const [maxHour, setMaxHour] = useState(500);
   const [valueHour, setValueHour] = useState([40, 500]);
 
   const [minMinute, setMinMinute] = useState(1);
@@ -112,14 +111,14 @@ function TranslatorsPage({
 
   const getLanguages = () => {
     LanguagesAPI.getLanguages().then((res) => {
-      console.log(res)
+      //console.log(res)
       setLanguages(res)
     })
   };
 
   const getSpecialities = () => {
     SpecialitiesAPI.getSpecialities(i18n.language).then((res) => {
-      console.log(res)
+      //console.log(res)
       setSpecialities(res)
     })
   }
@@ -210,7 +209,7 @@ function TranslatorsPage({
       setData(res);
 			setPageCount(res.pages)
     }).catch((err) => {
-      console.log(err)
+      //console.log(err)
     })
   };
 
@@ -223,7 +222,7 @@ function TranslatorsPage({
 
 
   const responsiveFilter = () =>{
-    console.log(getWindowDimensions())
+    //console.log(getWindowDimensions())
     if (getWindowDimensions()>768){
       setOpenFilter(true)
     }
@@ -238,7 +237,7 @@ function TranslatorsPage({
 
     },
     onSubmit: values => {
-      console.log("values")
+      //console.log("values")
     },
     //validationSchema: validationSchema,
     validateOnBlur: true,
@@ -263,13 +262,13 @@ function TranslatorsPage({
 
   const switchLanguages = () => {
     let languages = [formik.values.languageFrom, formik.values.languageTo]
-    console.log(languages)
+    //console.log(languages)
     formik.setFieldValue("languageFrom", languages[1])
     formik.setFieldValue("languageTo", languages[0])
   }
 
   const handlePageClick = data => {
-		console.log(data)
+		//console.log(data)
     let selected = data.selected;
     setPage(selected + 1)
 	};
@@ -559,15 +558,19 @@ function TranslatorsPage({
                                   <div className="star-container">
                                     <p className="name">
                                       {ele.firstname} {ele.lastname}
-                                      <p><strong>${ele.rate_hour}/{t('translator_profile.rate-hr')} | $
-                                          {ele.rate_minute}/{t('translator_profile.rate-min')}</strong></p>
+                                      <p className="rate-home"><strong>${ele.rate_hour}/{t('translator_profile.rate-hr')}</strong></p> 
+                                      <p className="rate-home"><strong>${ele.rate_minute}/{t('translator_profile.rate-min')}</strong></p>
                                       <div>
                                         <Rating
                                             emptySymbol="fa fa-star-o fa-2x fa-start"
                                             fullSymbol="fa fa-star fa-2x fa-start"
                                             className="startcontainer"
                                             readonly={true}
-                                            initialRating={Math.floor(ele.rating)}
+                                            start={0}
+                                            stop={10}
+                                            step={2}
+                                            fractions={2}
+                                            initialRating={Math.round(ele.rating*2)}
                                         />
                                       </div>
                                     </p>

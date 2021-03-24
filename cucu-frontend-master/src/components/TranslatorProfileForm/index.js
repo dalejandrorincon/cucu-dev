@@ -21,6 +21,8 @@ import * as Yup from 'yup';
 import * as UsersAPI from '../../api/users';
 import * as CitiesAPI from '../../api/cities';
 import ConfirmationModal from '../ConfirmationModal';
+import PasswordModal from '../PasswordModal';
+
 import { useTranslation } from 'react-i18next';
 
 export default function TranslatorProfileForm() {
@@ -45,12 +47,12 @@ export default function TranslatorProfileForm() {
     });
     const { t, i18n } = useTranslation();
 
-    const [showPassword, setShowPassword] = useState(false);
+    //const [showPassword, setShowPassword] = useState(false);
     const [buttonState, setButtonState] = useState({ label: t('translator-profile.save-changes'), disabled: false })
     const [countries, setCountries] = useState(null)
     const [cities, setCities] = useState(null)
     const [response, setResponse] = useState(null)
-
+    const [showModal, setShowModal] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const location = useLocation();
     const history = useHistory();
@@ -70,8 +72,8 @@ export default function TranslatorProfileForm() {
     }
 
     const getProfile = () => {
-        UsersAPI.getUser({}, localStorage.getItem("userId")).then((res) => {
-            console.log(res.user)
+        UsersAPI.getUser({}, localStorage.getItem("userId"), localStorage.getItem("token")).then((res) => {
+            //console.log(res.user)
             setEntity(res.user)
         })
     };
@@ -128,7 +130,10 @@ export default function TranslatorProfileForm() {
             console.log(err)
             let message;
             message = t('translator-profile.changes-error')
-
+            if (err.response?.data?.code == "MAIL_IN_USE") {
+                message = t('translator-profile.mail-in-use')
+            }
+            setButtonState({ label: t('translator-profile.save-changes'), disabled: false })
             setResponse(
                 <Alert variant={'danger'} >
                     {message}
@@ -179,8 +184,9 @@ export default function TranslatorProfileForm() {
             .min(3, t('min-char', {num: 3}))
             .required(t('required-field'))
             .matches(/^[\+\d]?(?:[\d-.\s()]*)$/, t('invalid-phone')),
-        password: Yup.string()
-            .min(3, t('min-char', {num: 3})),
+        /* password: Yup.string()
+            .min(3, t('min-char', {num: 3}))
+            .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&+\-\\])([A-Za-z\d$@$!%*?&+\-\\]|[^ ]){8,}$/i , t('forgot-password.password-criteria') ), */
         //.required(t('required-field')),
         /* description: Yup.string()
             .min(3, t('min-char', {num: 3}))
@@ -233,7 +239,7 @@ export default function TranslatorProfileForm() {
             document: entity.document ? entity.document : "",
             email: entity.email ? entity.email : "",
             phone: entity.phone ? entity.phone : "",
-            password: entity.password ? entity.password : "",
+            //password: entity.password ? entity.password : "",
             description: entity.description ? entity.description : "",
             country_id: entity.country_id ? entity.country_id : "",
             /* city_id: entity.city_id ? entity.city_id : "",
@@ -265,16 +271,16 @@ export default function TranslatorProfileForm() {
 
 
     return (
-        <div>         
+        <div style={{ marginTop: 30 }}>         
 
-            <Title>{t('translator-profile.my-account')}</Title>
+            /*<Title>{t('translator-profile.my-account')}</Title>
 
             { entity?.approved_translator == "0" ?                
             <Alert variant="primary" className="alert-profile">
                 {t('must-fill-profile')}
             </Alert>
             :null
-            }
+            }*/
 
             <Form onSubmit={formik.handleSubmit}>
                 <Form.Group>
@@ -333,7 +339,7 @@ export default function TranslatorProfileForm() {
                 <Form.Group>
                     <Label>{t('translator-profile.email')}</Label><span className="required">*</span>
                     <Form.Control
-                        disabled
+                        //disabled
                         id="email"
                         type="text"
                         className="form-control input-lg"
@@ -367,25 +373,17 @@ export default function TranslatorProfileForm() {
                 ) : null}
 
                 <Form.Group>
-                    <Label>{t('translator-profile.password')}</Label>
-                    <p>
-                        <small>{t('translator-profile.password-label')}</small>
-                    </p>
+                    <Label className="label-filter">{t('my-profile.password')} {t('optional')}</Label>
                     <InputGroup>
                         <ControlPassword
-                            type={showPassword ? "text" : "password"}
-                            onChange={(e) =>
-                                formik.setFieldTouched('password')
-                            }
+                            type="password"
+                            value="password"
+                            disabled
                         />
                         <InputGroup.Prepend>
-                            <ShowPassword
-                                onClick={() => {
-                                    setShowPassword(!showPassword)
-                                }}
-                            >
-                                {t('show')}
-                                </ShowPassword>
+                            <ShowPassword onClick={() => setShowModal(true)}>
+                                {t('my-profile.switch')}
+                            </ShowPassword>
                         </InputGroup.Prepend>
                     </InputGroup>
                 </Form.Group>
@@ -580,6 +578,12 @@ export default function TranslatorProfileForm() {
                 cancel={t('messages.disable-cancel')}
             ></ConfirmationModal>
 
+            <PasswordModal
+			show={showModal}
+			closeModal={()=>{
+				setShowModal(false)
+			}}
+			></PasswordModal>
             {response}
 
         </div>

@@ -2,7 +2,7 @@ import {api} from './api';
 
 export const getPaymentIntent = (token, payload) => {
   const URL = `/stripe/payment-intent`;
-  console.log(payload)
+  //console.log(payload)
   return api(URL, {
     method: 'POST',
     headers: {

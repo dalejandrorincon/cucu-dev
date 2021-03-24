@@ -67,7 +67,7 @@ function RecoverPasswordPage() {
         if (
           password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&+\-\\])([A-Za-z\d$@$!%*?&+\-\\]|[^ ]){8,}$/i)
         ) {
-          console.log("valid password");
+          //console.log("valid password");
         } else {
           setResponse(
             <Alert variant={'danger'} >
@@ -102,7 +102,7 @@ function RecoverPasswordPage() {
             setSuccessfulSend(true);
           })
           .catch((error) => {
-            console.log(error);
+            //console.log(error);
           });
       } else {
         setResponse(
@@ -113,7 +113,7 @@ function RecoverPasswordPage() {
         setError(true)
       }
     } catch (error) {
-      console.log("Error", error);
+      //console.log("Error", error);
     }
   };
 

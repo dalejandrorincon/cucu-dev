@@ -59,6 +59,7 @@
         "view": "View",
         "all-required-error": "Must complete all the required fields",
         "required-fields": "Required fields",
+        "optional": "(optional)",
         "password-criteria":"Must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character and a total of 8 characters without any spaces.",
 
         "menu":{
@@ -319,6 +320,7 @@
             "phone":"Phone number",
             "password":"Password (optional)",
             "password-label":"Type a new password",
+            "email-label":"Type a new email",
             "country": "Country of residence",
             "city": "City of residence",
             "nationality": "Nationality",
@@ -333,6 +335,7 @@
             "saving": "Saving...",
             "changes-error": "An error has ocurred while saving changes.",
             "successful-disable": "The account has been disabled successfully.",
+            "mail-in-use": "This e-mail is already in use.",
             "successful-changes": "The changes have been saved successfully."
 
         },

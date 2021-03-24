@@ -38,7 +38,7 @@ export default function RateModal(props) {
             rating: 0
 		},
 		onSubmit: values => {
-            console.log(values)
+            //console.log(values)
 			setConfirmDisable(true)
 			rateService(values)
 		},
@@ -53,7 +53,8 @@ export default function RateModal(props) {
             grade: values.rating,
             translator_id: props.service.translator_id,
             client_id: props.service.client_id,
-            service_id: props.service.id,
+			service_id: props.service.id,
+			description: values.comment,
             approved: "1"
         }
 
@@ -68,8 +69,8 @@ export default function RateModal(props) {
 	}
 
 	const getProfile = () => {
-        UsersAPI.getUser({}, props.service?.translator?.id).then((res) => {
-            console.log(res.user)
+        UsersAPI.getUser({}, props.service?.translator?.id, localStorage.getItem("token")).then((res) => {
+            //console.log(res.user)
             setTranslator(res.user)
         })
 	};

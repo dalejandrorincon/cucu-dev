@@ -99,7 +99,7 @@ export const connectSocket = () => {
     });
     
     socket.on("notifications", data => {
-        console.log(data)
+        //console.log(data)
     });
 }
 

@@ -27,6 +27,8 @@ import * as AuthAPI from '../../api/auth';
 import { connectSocket } from "../../utils/constants"
 import LanguageSelector from "../../components/LanguageSelector";
 
+
+
 function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showVerifyPassword, setShowVerifyPassword] = useState(false);
@@ -41,7 +43,7 @@ function SignupPage() {
   const [buttonState, setButtonState] = useState({ label:  t('sign-up-client.create-account'), disabled: false })
 
   const onSubmit = (data: any) => {
-    console.log(role)
+    //console.log(role)
     let userRole = role
     if(role=="3" && type=="enterprise"){
       userRole = "4"
@@ -51,7 +53,7 @@ function SignupPage() {
   };
 
   const saveChanges = (values) => {
-    console.log(values)
+    //console.log(values)
     setButtonState({ ...buttonState, ...{ label: t('sign-up-client.creating'), disabled: false } })
     UsersAPI.createUser(values).then((res) => {
         setButtonState({ label: t('sign-up-client.create-account'), disabled: false })
@@ -75,7 +77,7 @@ function SignupPage() {
         })
     }).catch((err) => {
         let error = err.response?.data?.errors;
-        console.log(err.response)
+        //console.log(err.response)
         let message = "Ha ocurrido un error al crear el usuario.";
         if(JSON.stringify(error)=='{"email":"Correo eléctronico ya está siendo usado"}'){
           message = t('sign-up-client.mail-used')

@@ -3,7 +3,7 @@ import {api} from './api';
 
 export const getCities = (payload) => {
   const URL = `/cities/`;
-  console.log(payload)
+  //console.log(payload)
   return api(URL, {
     method: 'GET',
     headers: {

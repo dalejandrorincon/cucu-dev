@@ -70,14 +70,14 @@ export default function AvailabilitiesList() {
 	}
 
 	const handlePageClick = data => {
-		console.log(data)
+		//console.log(data)
 		let selected = data.selected;
 		setOptions({ ...options, page: selected + 1 });
 	};
 
 	const getUnavailabilities = (type) => {
 		UsersAPI.getUnavailabilities(localStorage.getItem("token"), options).then((res) => {
-			console.log(res.results)
+			//console.log(res.results)
 			setUnvailabilities(res.results)
 			setPageCount(res.pages)
 		})

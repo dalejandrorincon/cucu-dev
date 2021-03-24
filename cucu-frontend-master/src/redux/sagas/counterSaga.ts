@@ -6,7 +6,7 @@ function* increaseCounterAsync() {
       type: "INCREASE_COUNTER_ASYNC",
     });
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 }
 
@@ -20,7 +20,7 @@ function* decreaseCounter() {
       type: "DECREASE_COUNTER_ASYNC",
     });
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 }
 

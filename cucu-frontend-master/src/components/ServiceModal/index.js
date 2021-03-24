@@ -77,7 +77,7 @@ export default function ServiceModal(props) {
   }
 
   const cancelService = () => {
-    console.log(typeof confirmDisable)
+    //console.log(typeof confirmDisable)
     setConfirmDisable(true)
     ServicesAPI.cancelService(localStorage.getItem("token"), props.service?.id, localStorage.getItem("role")).then((res) => {
       setConfirmDisable(false)
@@ -358,8 +358,8 @@ export default function ServiceModal(props) {
               <b>{t('request-modal.start-date')}: </b>
               <span> {moment(props.service.date).format("D MMM  YYYY")}</span>
             </p>
-            { props.service?.url?.length>0 && ( props.service?.status == "2" || role == "client" ) ?
               <>
+              { props.service?.url?.length>0 && ( props.service?.status == "2" || role == "client" ) ?
                 <URLLabel
                   type="button"
                   className="url-button"
@@ -376,18 +376,18 @@ export default function ServiceModal(props) {
                   <img src="/assets/images/video-purple.png"></img>
                   {t('request-modal.enter-session')}
                 </URLLabel>
-                { props.service?.url?.length>0 && ( props.service?.status == "2" || role == "client" ) ?
-                  <URLLabel className="url-edit-button"
-                    onClick={() => setModalEdit(true)}
-                  >
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    {t('request-modal.edit-url')}
-                  </URLLabel>
-                : null}
+              : null}
+
+              { ( (  props.service?.status == "0" || props.service?.status == "1" || props.service?.status == "2" ) && role == "client" ) ?
+                <URLLabel className="url-edit-button"
+                  onClick={() => setModalEdit(true)}
+                >
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  {t('request-modal.edit-url')}
+                </URLLabel>
+              : null}
 
               </>  
-              : null
-            }
             <hr></hr>
             <p className="detail-modal-text">{t('request-modal.attached')}</p>
             <div className="container-files">
@@ -448,6 +448,8 @@ export default function ServiceModal(props) {
         editSuccess={(url) => {
           props.updateServicesPersist();
           setNewUrl(url)
+          props.onHide()
+          props.updateServices()
           setAlert({ type: "success", message: t('request-modal.service-edited')})
         }}
         show={modalEdit}

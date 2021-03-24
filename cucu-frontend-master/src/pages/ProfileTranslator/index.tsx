@@ -29,7 +29,6 @@ import Header from "../../components/Header";
 import { useTranslation } from 'react-i18next';
 import i18next from "i18next";
 import * as CountriesAPI from '../../api/countries';
-import { ImageGradient } from "material-ui/svg-icons";
 
 const baseUri = process.env.REACT_APP_API_URL;
 
@@ -70,14 +69,14 @@ function ProfileTranslatorPage({
           setTranslators(responseJson.user);
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     } catch (error) {
-      console.log("Error", error);
+      //console.log("Error", error);
     }
     fetch(`${baseUri}/reviews/user/${id}`, {
       method: "GET",
-      headers: headers,
+      headers: headers
     })
       .then((response) => response.json())
       .then((responseJson) => {
@@ -86,9 +85,13 @@ function ProfileTranslatorPage({
       })
   };
 
+  useEffect(() => {
+    getCountries()
+  }, [i18n.language]);
+
   const getCountries = () => {
     CountriesAPI.getCountries({lang: i18n.language}).then((res) => {
-      console.log(res)
+      //console.log(res)
       setCountries(res)
     })
   }
@@ -143,7 +146,11 @@ function ProfileTranslatorPage({
                                   fullSymbol="fa fa-star fa-2x fa-start"
                                   className="startcontainer"
                                   readonly={true}
-                                  initialRating={Math.floor(translators?.rating)}
+                                  start={0}
+                                  stop={10}
+                                  step={2}
+                                  fractions={2}
+                                  initialRating={Math.round(translators?.rating*2)}
                                 />
                               </div>
                             </p>

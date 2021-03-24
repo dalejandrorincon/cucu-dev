@@ -52,14 +52,14 @@ export default function TranslatorProfileForm() {
 
     const getPaymentData = () => {
         PaymentDataAPI.getData(localStorage.getItem("token")).then((res) => {
-            console.log(res)
+            //console.log(res)
             setEntity(res)
         })
     };
 
     const getCountries = () => {
         CountriesAPI.getCountries({stripe: true, lang: i18n.language}).then((res) => {
-            console.log(res)
+            //console.log(res)
             if (res) {
                 const items = res.map((item) =>
                     <option key={item.id} value={item.id}>{ i18n.language=="ES" ? item.name_es : item.name_en}</option>
@@ -105,7 +105,7 @@ export default function TranslatorProfileForm() {
 
 
     const saveChanges = (values) => {
-        console.log(values)
+        //console.log(values)
         setButtonState({ ...buttonState, ...{ label: t('experience.saving'), disabled: false } })
 
         if(values.bank_id==""){
@@ -116,7 +116,7 @@ export default function TranslatorProfileForm() {
             PaymentDataAPI.createData({ ...values, user_id: localStorage.getItem("userId") }, localStorage.getItem("token")).then((res) => {
                 setSuccess()
             }).catch((err) => {
-                console.log(err)
+                //console.log(err)
                 setFail()
             })
 
@@ -124,7 +124,7 @@ export default function TranslatorProfileForm() {
             PaymentDataAPI.updateData({ ...values, user_id: localStorage.getItem("userId") }, localStorage.getItem("token")).then((res) => {
                 setSuccess()
             }).catch((err) => {
-                console.log(err)
+                //console.log(err)
                 setFail()
             })
         }
@@ -163,7 +163,6 @@ export default function TranslatorProfileForm() {
         document_number: Yup.string()
             .min(3, t('min-char', {num: 3}))
             .max(16, t('max-char', {num: 16}))
-            .required("*Este campo es obligatorio")
             .required("*Este campo es obligatorio"),
         payoneer_account: Yup.string()
             .min(3, t('min-char', {num: 3}))

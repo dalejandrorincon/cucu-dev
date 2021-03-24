@@ -3,7 +3,7 @@ import { api } from './api';
 
 export const createRating = (token, payload) => {
 	const URL = `/reviews/`;
-	console.log(payload)
+	//console.log(payload)
 	return api(URL, {
 		method: 'POST',
 		headers: {

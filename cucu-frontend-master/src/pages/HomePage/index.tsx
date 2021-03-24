@@ -63,10 +63,10 @@ function HomePage({
           setData(responseJson);
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     } catch (error) {
-      console.log("Error", error);
+      //console.log("Error", error);
     }
   };
 
@@ -113,10 +113,10 @@ function HomePage({
           getTranslators();
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     } catch (error) {
-      console.log("Error", error);
+      //console.log("Error", error);
     }
   };
 

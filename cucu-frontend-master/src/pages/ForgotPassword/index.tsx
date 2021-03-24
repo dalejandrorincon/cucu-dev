@@ -56,14 +56,14 @@ function ForgotPasswordPage() {
             setEmail("");
           })
           .catch((error) => {
-            console.log(error);
+            //console.log(error);
           });
       } else {
         setError(true)
         //alert("Ingresa por favor tu correo electrónico");
       }
     } catch (error) {
-      console.log("Error", error);
+      //console.log("Error", error);
     }
   };
 

@@ -19,7 +19,7 @@ export const getData = (token) => {
 
 export const createData = (payload, token) => {
 	const URL = `/payment_data/`;
-	console.log(payload)
+	//console.log(payload)
 	return api(URL, {
 		method: 'POST',
 		headers: {
@@ -39,7 +39,7 @@ export const createData = (payload, token) => {
 
 export const updateData = (payload, token) => {
 	const URL = `/payment_data/`;
-	console.log(payload)
+	//console.log(payload)
 	return api(URL, {
 		method: 'PUT',
 		headers: {

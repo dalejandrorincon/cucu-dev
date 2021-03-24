@@ -30,7 +30,7 @@ export default function RateModal(props) {
             url: props.service?.url,
 		},
 		onSubmit: values => {
-            console.log(values)
+            //console.log(values)
 			setConfirmDisable(true)
 			editService(values)
 		},

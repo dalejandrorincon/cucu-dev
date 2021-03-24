@@ -16,13 +16,14 @@ export const getToken = () => {
 
 export const logout = () => {
   AuthAPI.logout(getToken()).then((res)=>{
-    console.log(res)
+    //console.log(res)
   })
   localStorage.removeItem("image_url")
   localStorage.removeItem("role")
   localStorage.removeItem("userName")
   localStorage.removeItem("userId")
   localStorage.removeItem("token")
+  localStorage.removeItem("approved")
 };
 
 export const isLogin = () => {

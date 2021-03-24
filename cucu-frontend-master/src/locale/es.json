@@ -58,6 +58,7 @@
         "view": "Ver",
         "all-required-error": "Se deben completar todos los campos obligatorios",
         "required-fields": "Campos obligatorios",
+        "optional": "(opcional)",
         "password-criteria":"La contraseña Debe contener como mínimo una letra mayúscula, una letra minúscula, 1 número, 1 carácter especial y 8 caracteres sin espacio en blanco.",
 
         "menu":{
@@ -318,6 +319,7 @@
             "phone":"Teléfono",
             "password":"Contraseña (opcional)",
             "password-label":"Escribir una nueva contraseña.",
+            "email-label":"Escribir un nuevo correo electrónico.",
             "country": "Pais de residencia",
             "city": "Ciudad de residencia",
             "nationality": "Nacionalidad",
@@ -332,6 +334,7 @@
             "saving": "Guardando...",
             "changes-error": "Ha ocurrido un error al guardar los cambios.",
             "successful-disable": "Cambios cuenta deshabilitada exitosamente.",
+            "mail-in-use": "Este correo ya está siendo usado.",
             "successful-changes": "Cambios guardados exitosamente."
 
         },

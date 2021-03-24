@@ -4,7 +4,7 @@ import {uploadApi} from './uploadApi';
 
 export const createService = (token, payload) => {
   const URL = `/translation_services/`;
-  console.log(payload)
+  //console.log(payload)
   return api(URL, {
     method: 'POST',
     headers: {
@@ -24,7 +24,7 @@ export const createService = (token, payload) => {
 
 export const updateService = (token, payload, id) => {
   const URL = `/translation_services/`+id;
-  console.log(payload)
+  //console.log(payload)
   return api(URL, {
     method: 'PUT',
     headers: {
@@ -42,9 +42,9 @@ export const updateService = (token, payload, id) => {
 };
 
 export const getServices = (type, token, payload) => {
-  console.log(type)
+  //console.log(type)
   const URL = `/translation_services/`+type;
-  console.log(payload)
+  //console.log(payload)
   return api(URL, {
     method: 'GET',
     headers: {
@@ -190,7 +190,7 @@ export const rateService = (token, id) => {
 
 export const saveFile = (file) => {
   const URL = `/translation_services/file`;
-  console.log(file)
+  //console.log(file)
 
   var formdata = new FormData();
   formdata.append("files", file);

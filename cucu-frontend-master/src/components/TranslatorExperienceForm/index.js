@@ -91,9 +91,9 @@ export default function TranslatorExperienceForm() {
         onSubmit: values => {
 
             if(
-                !(selectedPlatforms && selectedPlatforms.length == 0 ) &&
-                !(selectedLanguages && selectedLanguages.length == 0 ) &&
-                !(selectedSpecialities && selectedSpecialities.length == 0 )
+                /* !(selectedPlatforms && selectedPlatforms.length == 0 ) && */
+                !(selectedLanguages && selectedLanguages.length == 0 )
+                /* !(selectedSpecialities && selectedSpecialities.length == 0 ) */
                 //!(!formik.values.work_experience || formik.values.work_experience.length==0  )
                 //!(!formik.values.certifications || formik.values.certifications.length==0 ) 
             ){
@@ -123,7 +123,7 @@ export default function TranslatorExperienceForm() {
             approved_translator: 1
         }
 
-        console.log(payload)
+        //console.log(payload)
 
         UsersAPI.updateUser(payload, localStorage.getItem("token")).then((res) => {
             let message = t('translator-profile.successful-changes')
@@ -134,7 +134,7 @@ export default function TranslatorExperienceForm() {
                 </Alert>
             )
         }).catch((err) => {
-            console.log(err)
+            //console.log(err)
             let message;
             message = t('translator-profile.changes-error')
 
@@ -164,8 +164,8 @@ export default function TranslatorExperienceForm() {
     }, []);
 
     const getProfile = () => {
-        UsersAPI.getUser({}, localStorage.getItem("userId")).then((res) => {
-            console.log(res.user)
+        UsersAPI.getUser({}, localStorage.getItem("userId"), localStorage.getItem("token")).then((res) => {
+            //console.log(res.user)
             setEntity(res.user)
             if(res.user.remote_tools) setSelectedPlatforms(res.user.remote_tools)
             if(res.user.specialities){
@@ -184,14 +184,14 @@ export default function TranslatorExperienceForm() {
 
     const getPlatforms = () => {
         PlatformsAPI.getPlatforms().then((res) => {
-            console.log(res)
+            //console.log(res)
             setPlatforms(res)
         })
     };
 
     const getLanguages = () => {
         LanguagesAPI.getLanguages().then((res) => {
-            console.log(res)
+            //console.log(res)
             setLanguages(res)
         })
     };
@@ -207,16 +207,16 @@ export default function TranslatorExperienceForm() {
                 }
             });
 
-            console.log(res)
+            //console.log(res)
 
-            console.log(res)
+            //console.log(res)
             setSpecialities(res)
         })
     }
 
     const switchLanguages = () =>{
         let languages = [formik.values.from, formik.values.to]
-        console.log(languages)
+        //console.log(languages)
         formik.setFieldValue("from", languages[1])
         formik.setFieldValue("to", languages[0])
     }
@@ -245,7 +245,7 @@ export default function TranslatorExperienceForm() {
                 setSelectedPlatforms([ ...selectedPlatforms, ...current ])
                 break;
             case "specialities":
-                console.log(selectedSpecialities)
+                //console.log(selectedSpecialities)
                 current = specialities.filter((item)=> item.id == formik.values.speciality )
                 setSelectedSpecialities([ ...selectedSpecialities, ...current ])
         }
@@ -330,7 +330,7 @@ export default function TranslatorExperienceForm() {
     }
 
     const removeExperience = (index, type) => {
-        console.log(index)
+        //console.log(index)
         let current;
         switch (type) {
             case "experiences":
@@ -399,16 +399,9 @@ export default function TranslatorExperienceForm() {
         <div className="translator-experience-form">
 
             <Title>{t('experience.experience')}</Title>
-
-            { entity?.approved_translator == "0" ?                
-            <Alert variant="primary" className="alert-profile">
-                {t('must-fill-profile')}
-            </Alert>
-            :null
-            }
-
+          
             <Form onSubmit={formik.handleSubmit}>
-                <h6><b>{t('experience.remote-tools')}</b></h6>
+                <h6><b>{t('experience.remote-tools')} {t('optional')}</b></h6>
                 <div className="platforms-panel">
                     {selectedPlatforms?.map((elm, index) => (
                         <div key={index} className="item">
@@ -436,11 +429,11 @@ export default function TranslatorExperienceForm() {
                     <Button className="add" onClick={() => onAddition('platforms')} >{t('add')}</Button>
                 </div>
 
-                {selectedPlatforms && selectedPlatforms.length == 0 && submitAttempt ? (
+                {/* {selectedPlatforms && selectedPlatforms.length == 0 && submitAttempt ? (
                     <div className="alert alert-danger">{t('experience.tools-must')}</div>
-                ) : null}
+                ) : null} */}
 
-                <h6><b>{t('experience.languages')}</b></h6>
+                <h6><b>{t('experience.languages')}</b><span className="required">*</span></h6>
                 <p><b>{t('experience.languages-label')}</b></p>
 
                 <div className="Language-panel">
@@ -496,7 +489,7 @@ export default function TranslatorExperienceForm() {
                     <div className="alert alert-danger">{t('experience.required-language')}</div>
                 ) : null}
 
-                <h6><b>{t('experience.specialities')}</b></h6>
+                <h6><b>{t('experience.specialities')} {t('optional')}</b></h6>
                 <p>{t('experience.specialities-label')}</p>
                 <div className="specialities-panel">
                     {selectedSpecialities?.map((elm, index) => (
@@ -526,11 +519,11 @@ export default function TranslatorExperienceForm() {
                 </div>
 
                 
-                {selectedSpecialities && selectedSpecialities.length == 0 && submitAttempt ? (
+                {/* {selectedSpecialities && selectedSpecialities.length == 0 && submitAttempt ? (
                     <div className="alert alert-danger">{t('experience.required-speciality')}</div>
                 ) : null}
-
-                <h6><b>{t('experience.experience')}</b></h6>
+ */}
+                <h6><b>{t('experience.experience')} {t('optional')}</b></h6>
                 <p>{t('experience.experience-label')}</p>
 
                 <div className="experience-component">
@@ -573,7 +566,7 @@ export default function TranslatorExperienceForm() {
                 ) : null} */}
 
 
-                <h6><b>{t('certification.certifications')}</b></h6>
+                <h6><b>{t('certification.certifications')} {t('optional')}</b></h6>
                 <p>{t('experience.certification-label')}</p>
 
                 <div className="experience-component">
@@ -617,13 +610,15 @@ export default function TranslatorExperienceForm() {
 
                 {
                     !(
-                    !(selectedPlatforms && selectedPlatforms.length == 0 ) &&
-                    !(selectedLanguages && selectedLanguages.length == 0 ) &&
-                    !(selectedSpecialities && selectedSpecialities.length == 0 )
+                    /* !(selectedPlatforms && selectedPlatforms.length == 0 ) && */
+                    !(selectedLanguages && selectedLanguages.length == 0 )
+                    /* !(selectedSpecialities && selectedSpecialities.length == 0 ) */
                     ) && submitAttempt ? (
                         <div className="alert alert-danger">{t('all-required-error')}</div>
                     ) : null
                 }
+          
+               <p style={{marginTop: 20}}><small><b><span className="required">*</span>{t('required-fields')}</b></small></p>
 
                 <Submit
                     disabled={buttonState.disabled}

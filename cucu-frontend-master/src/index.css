@@ -927,7 +927,6 @@ background-color: #8b4bf1;
 
 .fa-start {
   font-size: 2em !important;
-  margin-right: 15px !important;
   color: #25a847 !important;
 }
 
@@ -1270,4 +1269,7 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+}
+.rate-home{
+  margin-bottom: 0;
 }

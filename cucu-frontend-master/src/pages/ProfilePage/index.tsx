@@ -36,6 +36,7 @@ import * as CountriesAPI from '../../api/countries';
 import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Header from "../../components/Header";
+import PasswordModal from "../../components/PasswordModal";
 
 import * as UsersAPI from '../../api/users';
 import { useTranslation } from 'react-i18next';
@@ -53,11 +54,9 @@ function ProfilePage({
   reduxDecreaseCounter,
   counter,
 }: Props) {
-  const [showOldPassword, setShowOldPassword] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showVerifyPassword, setShowVerifyPassword] = useState(false);
   const [image, setImage] = useState<any>(null);
   const [countries, setCountries] = useState(null)
+  const [showModal, setShowModal] = useState(false);
 
   const { t, i18n } = useTranslation();
 
@@ -141,38 +140,16 @@ function ProfilePage({
 
   useEffect(() => {
     getButton();
+    getCountries();
   }, [i18n.language]);
 
   const getButton = () =>{
       setButtonState({ label: t('experience.save-changes'), disabled: false })
   }
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    UsersAPI.updatePassword({newPassword: data.password, oldPassword: data.old_password}, localStorage.getItem("token")).then((res) => {
-      let message = t('translator_profile.update-password-success')
-      setResponse(
-        <Alert variant={'success'} >
-          {message}
-        </Alert>
-      )
-      handleClose()
-    }).catch((err) => {
-      console.log(err)
-      let message;
-      message = t('translator_profile.update-password-error')
-      setResponse(
-        <Alert variant={'danger'} >
-          {message}
-        </Alert>
-      )
-      handleClose()
-    })
-  };
-
   const getCountries = () => {
     CountriesAPI.getCountries({lang: i18n.language}).then((res) => {
-      console.log(res)
+      //console.log(res)
       if (res) {
         const items = res.map((item) =>
           <option key={item.id} value={item.id}>{ i18n.language=="ES" ? item.name_es : item.name_en}</option>
@@ -183,8 +160,8 @@ function ProfilePage({
   }
 
   const getProfile = () => {
-    UsersAPI.getUser({}, localStorage.getItem("userId")).then((res) => {
-      console.log(res.user)
+    UsersAPI.getUser({}, localStorage.getItem("userId"), localStorage.getItem("token")).then((res) => {
+      //console.log(res.user)
       setEntity(res.user)
       localStorage.setItem("image_url", res.user?.image_url);
       getImage()
@@ -193,11 +170,11 @@ function ProfilePage({
 
   const handleFileChange = async (event) => {
     const res = await UsersAPI.saveFile(event.target.files[0])
-    console.log(res.image.Location)
+    //console.log(res.image.Location)
     UsersAPI.updateUser({ image_url: res.image?.Location }, localStorage.getItem("token")).then((res) => {
       getProfile()
     }).catch((err) => {
-      console.log(err)
+      //console.log(err)
     })
   }
 
@@ -211,7 +188,7 @@ function ProfilePage({
   }
 
   const saveChanges = (values) => {
-    console.log(values)
+    //console.log(values)
     setButtonState({ ...buttonState, ...{ label: t('translator-profile.saving'), disabled: false } })
     UsersAPI.updateUser(values, localStorage.getItem("token")).then((res) => {
       let message = t('translator-profile.successful-changes')
@@ -222,10 +199,13 @@ function ProfilePage({
         </Alert>
       )
     }).catch((err) => {
-      console.log(err)
+      //console.log(err)
       let message;
       message = t('translator-profile.changes-error')
-
+      if(err.response?.data?.code=="MAIL_IN_USE"){
+          message = t('translator-profile.mail-in-use')
+      }
+      setButtonState({ label: t('translator-profile.save-changes'), disabled: false })
       setResponse(
         <Alert variant={'danger'} >
           {message}
@@ -261,6 +241,7 @@ function ProfilePage({
                               src={image}
                               alt="logo"
                             />
+                            {JSON.stringify(showModal)}
                             <div className="upload">
                               <label htmlFor="file" className="upload-btn-label">
                                 <i className="fa fa-pencil"></i>
@@ -340,7 +321,7 @@ function ProfilePage({
 
                           <Form.Group>
                             <Label className="label-filter">
-                              { entity?.role=="4" ? t('my-profile.document-company') : t('my-profile.document') }
+                              { entity?.role=="4" ? t('my-profile.document-company')+" "+t('optional') : t('my-profile.document')+" "+t('optional') }
                             </Label>
                             <Control type="text"
                               id="document"
@@ -431,21 +412,22 @@ function ProfilePage({
 
 
                           <Form.Group>
-                            <Label className="label-filter">{t('my-profile.password')}</Label>
+                            <Label className="label-filter">{t('my-profile.password')} {t('optional')}</Label>
                             <InputGroup>
                               <ControlPassword
                                 type="password"
                                 value="password"
+                                disabled
                               />
                               <InputGroup.Prepend>
-                                <ShowPassword onClick={handleShow}>
+                                <ShowPassword onClick={()=>setShowModal(true)}>
                                   {t('my-profile.switch')}
                                 </ShowPassword>
                               </InputGroup.Prepend>
                             </InputGroup>
                           </Form.Group>
                           <Form.Group>
-                            <Label className="label-filter">{t('my-profile.about-me')}</Label>
+                            <Label className="label-filter">{t('my-profile.about-me')} {t('optional')}</Label>
                             <Control type="text"
                               id="description"
                               onChange={e => {
@@ -485,105 +467,12 @@ function ProfilePage({
             </PasswordRecover>
           </Col>
         </RowRecover>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>{t('my-profile.change-account')}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p className="info-change-password">
-              {t('my-profile.type-password')}
-            </p>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <Form.Group>
-                <InputGroup>
-                  <ControlPassword
-                    type={showOldPassword ? "text" : "password"}
-                    name="old_password"
-                    placeholder={t('my-profile.current-password')}
-                    ref={register({ required: true })}
-                  />
-                  <InputGroup.Prepend>
-                    <ShowPassword
-                      onClick={() => {
-                        setShowOldPassword(!showOldPassword);
-                      }}
-                    >
-                      {showOldPassword ? t('hide') : t('show')}
-                    </ShowPassword>
-                  </InputGroup.Prepend>
-                </InputGroup>
-              </Form.Group>
-              {errors.old_password && (
-                <div className="alert alert-danger">
-                  {t('my-profile.current-password-required')}
-                </div>
-              )}
-              <Form.Group>
-                <InputGroup>
-                  <ControlPassword
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    placeholder={t('my-profile.new-password')}
-                    ref={register({
-                      required: "La contraseña es requerida",
-                      pattern: {
-                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$¡!%*¿?&#"'/&(){}])([A-Za-z\d$@$¡!%*¿?+&#"'/&(){}]|[^ ]){8,}$/i,
-                        message: `La contraseña Debe contener como mínimo una letra mayúscula, una letra minúscula, 1 número, 1 carácter especial y 8 caracteres sin espacio en blanco`,
-                      },
-                    })}
-                  />
-                  <InputGroup.Prepend>
-                    <ShowPassword
-                      onClick={() => {
-                        setShowPassword(!showPassword);
-                      }}
-                    >
-                      {showPassword ? t('hide') : t('show')}
-                    </ShowPassword>
-                  </InputGroup.Prepend>
-                </InputGroup>
-              </Form.Group>
-              {errors.password && (
-                <div className="alert alert-danger">
-                  {errors.password.type == "required" ? t('required-field') : null}
-                  {errors.password.type == "pattern" ? t('password-criteria') : null}
-                </div>
-              )}
-              <PasswordInfo>
-                {t('password-criteria')}
-              </PasswordInfo>
-              <Form.Group controlId="formBasicPassword">
-                <InputGroup>
-                  <ControlPassword
-                    type={showVerifyPassword ? "text" : "password"}
-                    name="password_repeat"
-                    placeholder={t('my-profile.confirm-password')}
-                    ref={register({
-                      validate: (value) =>
-                        value === password.current ||
-                        "Las contraseñas no coinciden",
-                    })}
-                  />
-                  <InputGroup.Prepend>
-                    <ShowPassword
-                      onClick={() => {
-                        setShowVerifyPassword(!showVerifyPassword);
-                      }}
-                    >
-                      {showVerifyPassword ? t('hide') : t('show')}
-                    </ShowPassword>
-                  </InputGroup.Prepend>
-                </InputGroup>
-              </Form.Group>
-              {errors.password_repeat && (
-                <div className="alert alert-danger">
-                  {errors.password_repeat.message}
-                </div>
-              )}
-              <SubmitButton type="submit">{t('change-password')}</SubmitButton>
-            </Form>
-          </Modal.Body>
-        </Modal>
+        <PasswordModal
+          show={showModal}
+          closeModal={()=>{
+            setShowModal(false)
+          }}
+        ></PasswordModal>
       </Container>
     </>
   );
