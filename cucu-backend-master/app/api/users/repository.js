@@ -337,7 +337,10 @@ class Repository extends Base {
         'image_url',
         'disabled',
         'unavailable',
-        'remote_tools'
+        'remote_tools',
+        'certifications',
+        'phone',
+        'email'
       )
       .where("id", userId )
   }

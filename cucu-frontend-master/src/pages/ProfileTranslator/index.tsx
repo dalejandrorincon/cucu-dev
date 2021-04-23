@@ -48,6 +48,7 @@ function ProfileTranslatorPage({
   const { id } = useParams();
   const [isVisible, setisVisible] = useState(false);
   const [isVisibleCertificate, setisVisibleCertificate] = useState(false);
+  const [isVisibleWorkCert, setisVisibleWorkCert] = useState(false);
   const [certificate, setCertificate] = useState<any>([]);
   const [countries, setCountries] = useState<any>([]);
   const [reviews, setReviews] = useState<any>([]);
@@ -243,7 +244,7 @@ function ProfileTranslatorPage({
                           </Col>
                           <Col className="col-md-12 col-margin">
                             <Row className="border-cont">
-                              <Col>
+                              {/* <Col>
                                 <p>{t('translator_profile.work_experience')}</p>
                                 <span className="text-profile-item">
                                 {translators?.work_experience?.map((xp: any) => (
@@ -252,18 +253,43 @@ function ProfileTranslatorPage({
                                   </span>
                                 ))}
                                 </span>
+                              </Col> */}
+                              <Col>
+                                <p>{t('translator_profile.work_experience')}</p>
+                                <span className="text-profile-item">
+                                {translators?.work_experience?.map((xp: any) => (
+                                  xp.url != "[]" ?
+                                  <a onClick={() => {
+                                    setisVisibleWorkCert(true);
+                                    setCertificate(JSON.parse(xp.url).map((img)=>(img)))
+                                  }}className="see-cer badge badge-light">
+                                    {`${xp.company}`}
+                                  </a>
+                                  : 
+                                  <span className=" badge badge-light">
+                                    {`${xp.company}`}
+                                  </span>
+                                ))}
+                                </span>
                               </Col>
                               <Col>
                                 <p>{t('translator_profile.certifications')}</p>
                                 <span className="text-profile-item">
                                 {translators?.certifications?.map((cert: any) => (
+                                  // console.log(cert)
+                                  cert.url != "[]" ? 
                                   <a onClick={() => {
                                     setisVisibleCertificate(true);
                                     setCertificate(JSON.parse(cert.url).map((img)=>(img)))
                                   }}className="see-cer badge badge-light">
                                     {`${cert.name}`}
                                   </a>
+                                  :
+                                  <span className=" badge badge-light">
+                                    {`${cert.name}`}
+                                  </span>
                                 ))}
+                                
                                 </span>
                               </Col>
                             </Row>
@@ -322,8 +348,34 @@ function ProfileTranslatorPage({
               </Modal.Body>
         </Modal>
           ))}  
-               
 
+          {certificate?.map((rev: any) => (
+            <Modal
+            show={isVisibleWorkCert}
+            onHide={() => {
+              setisVisibleWorkCert(false);
+            }}
+            autoFocus
+            keyboard
+            size="lg"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>{t('translator_profile.certifications')}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="mx-auto">
+              
+              <div className="w-100" >
+                    { rev.url.includes(".pdf") == true &&
+                      <a className="w-50 btn-donwload" href={rev.url} target="_blank">{t('translator_profile.dwn-certificate')}</a>
+                    }
+                    {
+                      rev.url.includes(".pdf") == false &&
+                      <img className="img-fluid" src={rev.url}></img>
+                    }
+              </div>
+              </Modal.Body>
+        </Modal>
+          ))} 
             
           
         <Modal

@@ -310,11 +310,11 @@ function SignupPage() {
                 />
                 <FormCheckLabel>
                   {t('sign-up-client.ive-read-the')}
-                  <a className="main-link" target="_blank" href={i18n.language=="ES" ? "https://cucu-nativapps-data.s3.amazonaws.com/TyC_ES.pdf" : "https://cucu-nativapps-data.s3.amazonaws.com/TyC_EN.pdf"  } 
+                  <a className="main-link" target="_blank" href={i18n.language=="ES" ? "https://cucu-us-data.s3.amazonaws.com/TyC_ES.pdf" : "https://cucu-us-data.s3.amazonaws.com/TyC_EN.pdf"  } 
                   >{t('sign-up-client.terms-and-conditions')}
                   </a>{" "}
                   {t('sign-up-client.of-the-service-and-the')}{""}
-                  <a className="main-link" target="_blank" href={i18n.language=="ES" ? "https://cucu-nativapps-data.s3.amazonaws.com/PTD_ES..pdf" : "https://cucu-nativapps-data.s3.amazonaws.com/PTD_EN..pdf"  } 
+                  <a className="main-link" target="_blank" href={i18n.language=="ES" ? "https://cucu-us-data.s3.amazonaws.com/PTD_ES.pdf" : "https://cucu-us-data.s3.amazonaws.com/PTD_EN..pdf"  } 
                   >{t('sign-up-client.privacy-policy')}
                   </a>
                 </FormCheckLabel>

@@ -133,56 +133,55 @@ export default function TranslatorProfileForm() {
 
     const validationSchema = Yup.object().shape({
 
-        bank: Yup.string()
-            .min(3, t('min-char', {num: 3}))
-            .max(100, t('max-char', {num: 100}))
-            .required("*Este campo es obligatorio"),
+        // bank: Yup.string()
+        //     .min(3, t('min-char', {num: 3}))
+        //     .max(100, t('max-char', {num: 100}))
+        //     .required("*Este campo es obligatorio"),
         /* bank_id: Yup.string()
             .min(1, "*Debes elegir un campo"),
             //.required("*Este campo es obligatorio"), */
-        account_type: Yup.string()
-            .min(1, t('required-value'))
-            .required("*Este campo es obligatorio"),
-        account_number: Yup.string()
-            .min(3, t('min-char', {num: 3}))
-            .max(20, t('max-char', {num: 20}))
-            .required("*Este campo es obligatorio"),
-        country_id: Yup.string()
-            .min(1, t('required-value'))
-            .required(t('required-field')),
+        // account_type: Yup.string()
+        //     .min(1, t('required-value'))
+        //     .required("*Este campo es obligatorio"),
+        // account_number: Yup.string()
+        //     .min(3, t('min-char', {num: 3}))
+        //     .max(20, t('max-char', {num: 20}))
+        //     .required("*Este campo es obligatorio"),
+        // country_id: Yup.string()
+        //     .min(1, t('required-value'))
+        //     .required(t('required-field')),
             //.required("*Este campo es obligatorio"),
-        owner_name: Yup.string()
-            .min(3, t('min-char', {num: 3}))
-            .max(100, t('max-char', {num: 100}))
-            .required("*Este campo es obligatorio"),
+        // owner_name: Yup.string()
+        //     .min(3, t('min-char', {num: 3}))
+        //     .max(100, t('max-char', {num: 100}))
+        //     .required("*Este campo es obligatorio"),
             //.required("*Este campo es obligatorio"),
-        document_type: Yup.string()
-            .min(1, t('required-value'))
-            .required("*Este campo es obligatorio"),
+        // document_type: Yup.string()
+        //     .min(1, t('required-value'))
+        //     .required("*Este campo es obligatorio"),
             //.required("*Este campo es obligatorio"),
-        document_number: Yup.string()
-            .min(3, t('min-char', {num: 3}))
-            .max(16, t('max-char', {num: 16}))
-            .required("*Este campo es obligatorio"),
+        // document_number: Yup.string()
+        //     .min(3, t('min-char', {num: 3}))
+        //     .max(16, t('max-char', {num: 16}))
+        //     .required("*Este campo es obligatorio"),
         payoneer_account: Yup.string()
             .min(3, t('min-char', {num: 3}))
-            .max(20, t('max-char', {num: 20}))
-            .required("*Este campo es obligatorio")
-            .required("*Este campo es obligatorio") 
+            .max(60, t('max-char', {num: 60}))
+            .required("*Este campo es obligatorio"),
 
     });
 
     const formik = useFormik({
         initialValues: {
-            bank: entity?.bank ? entity.bank : "",
-            bank_id: entity?.bank_id ? entity.bank_id : "",
-            account_type: entity?.account_type ? entity.account_type : "",
-            account_number: entity?.account_number ? entity.account_number : "",
-            country_id: entity.country_id ? entity.country_id : "",
-            owner_name: entity?.owner_name ? entity.owner_name : "",
-            document_type: entity?.document_type ? entity.document_type : "",
-            document_number: entity?.document_number ? entity.document_number : "",
-            //payoneer_account: entity?.payoneer_account ? entity.payoneer_account : ""
+            // bank: entity?.bank ? entity.bank : "",
+            // bank_id: entity?.bank_id ? entity.bank_id : "",
+            // account_type: entity?.account_type ? entity.account_type : "",
+            // account_number: entity?.account_number ? entity.account_number : "",
+            // country_id: entity.country_id ? entity.country_id : "",
+            // owner_name: entity?.owner_name ? entity.owner_name : "",
+            // document_type: entity?.document_type ? entity.document_type : "",
+            // document_number: entity?.document_number ? entity.document_number : "",
+            payoneer_account: entity?.payoneer_account ? entity.payoneer_account : ""
         },
         onSubmit: values => {
             saveChanges({ ...values })
@@ -197,10 +196,10 @@ export default function TranslatorProfileForm() {
     return (
         <div>
 
-            <Title>{t('bank-info.bank-title')}</Title>
+            <Title>{t('bank-info.personal-information')}</Title>
 
             <Alert variant="primary">
-                {/* {t('bank-info.payoneer-label-1')}<a target="_blank" href="https://stripe.com/global">{t('bank-info.payoneer-link')}</a>{t('bank-info.payoneer-label-2')} */}
+                {t('bank-info.payoneer-label-1')}<a target="_blank" href="https://stripe.com/global">{t('bank-info.payoneer-link')}</a>{t('bank-info.payoneer-label-2')}
                 <p>{t('bank-info.payoneer-account-label')}<a target="_blank" href="https://www.payoneer.com/resources/payoneer-account/">{t('bank-info.payoneer-account-link')}</a></p>
             </Alert>
 
@@ -208,7 +207,7 @@ export default function TranslatorProfileForm() {
 
                 <Form.Group>
                     <Label>{t('bank-info.payoneer-account')}</Label>
-                    <Control
+                    <Form.Control
                         id="payoneer_account"
                         type="text"
                         value={formik.values.payoneer_account}
@@ -225,7 +224,7 @@ export default function TranslatorProfileForm() {
                 <hr />
 
                 {/* <Form.Group>
-                    <Label>{t('bank-info.bank')}</Label>
+                    <Label>{t('bank-info.bank')}<span className="required">*</span></Label>
                     <Form.Control
                         id="bank"
                         className="form-control input-lg"
@@ -234,13 +233,13 @@ export default function TranslatorProfileForm() {
                             formik.handleChange(e);
                         }}
                         value={formik.values.bank} />
-                </Form.Group> */}
-                {/* {formik.touched.bank && formik.errors.bank ? (
+                </Form.Group>
+                {formik.touched.bank && formik.errors.bank ? (
                     <div className="alert alert-danger">{formik.errors.bank}</div>
-                ) : null} */}
+                ) : null}
 
-                {/* <Form.Group>
-                    <Label>{t('bank-info.account-type')}</Label>
+                <Form.Group>
+                    <Label>{t('bank-info.account-type')}<span className="required">*</span></Label>
                     <Form.Control
                         as="select"
                         id="account_type"
@@ -259,10 +258,10 @@ export default function TranslatorProfileForm() {
                 </Form.Group>
                 {formik.touched.account_type && formik.errors.account_type ? (
                     <div className="alert alert-danger">{formik.errors.account_type}</div>
-                ) : null} */}
+                ) : null}
 
-                {/* <Form.Group>
-                    <Label>{t('bank-info.account-number')}</Label>
+                <Form.Group>
+                    <Label>{t('bank-info.account-number')}<span className="required">*</span></Label>
                     <Form.Control
                         id="account_number"
                         type="number"
@@ -277,11 +276,11 @@ export default function TranslatorProfileForm() {
 
                 {formik.touched.account_number && formik.errors.account_number ? (
                     <div className="alert alert-danger">{formik.errors.account_number}</div>
-                ) : null} */}
+                ) : null}
 
 
-                {/* <Form.Group className="outline">
-                    <Label>{t('bank-info.account-country')}</Label>
+                <Form.Group className="outline">
+                    <Label>{t('bank-info.account-country')}<span className="required">*</span></Label>
                     <Form.Control
                         as="select"
                         id="country_id"
@@ -299,10 +298,10 @@ export default function TranslatorProfileForm() {
 
                 {formik.touched.country_id && formik.errors.country_id ? (
                     <div className="alert alert-danger">{formik.errors.country_id}</div>
-                ) : null} */}
+                ) : null}
 
-                {/* <Form.Group>
-                    <Label>{t('bank-info.owner-name')}</Label>
+                <Form.Group>
+                    <Label>{t('bank-info.owner-name')}<span className="required">*</span></Label>
                     <Form.Control
                         id="owner_name"
                         type="text"
@@ -315,10 +314,10 @@ export default function TranslatorProfileForm() {
                 </Form.Group>
                 {formik.touched.owner_name && formik.errors.owner_name ? (
                     <div className="alert alert-danger">{formik.errors.owner_name}</div>
-                ) : null} */}
+                ) : null}
 
-                {/* <Form.Group>
-                    <Label>{t('bank-info.owner-document')}</Label>
+                <Form.Group>
+                    <Label>{t('bank-info.owner-document')}<span className="required">*</span></Label>
 
                     <div className="document-form">
                         <Form.Control
@@ -358,8 +357,7 @@ export default function TranslatorProfileForm() {
                     <div className="alert alert-danger">{formik.errors.document_number}</div>
                 ) : null} */}
 
-
-                
+                <p><small><b><span className="required">*</span>{t('required-fields')}</b></small></p>
 
                 <Submit
                     disabled={buttonState.disabled}
