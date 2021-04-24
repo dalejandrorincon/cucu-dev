@@ -207,6 +207,7 @@ function TranslatorsPage({
     UsersAPI.getTranslators(settings, localStorage.getItem("token")).then((res) => {
       setTranslators(res.users);
       setData(res);
+      console.log(res)
 			setPageCount(res.pages)
     }).catch((err) => {
       //console.log(err)

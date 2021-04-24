@@ -14,6 +14,7 @@ import * as PlatformsAPI from '../../api/platforms';
 import * as LanguagesAPI from '../../api/languages';
 import * as SpecialitiesAPI from '../../api/specialities';
 import * as UsersAPI from '../../api/users';
+import * as ServicesAPI from '../../api/translator_services';
 
 import ExperienceModal from '../ExperienceModal';
 import CertificationModal from '../CertificationModal';
@@ -31,6 +32,9 @@ export default function TranslatorExperienceForm() {
 
     const [platforms, setPlatforms] = useState([]);
     const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+
+    const [translator_services, setTranslator_services] = useState([]);
+    const [selectedTranslator_services, setSelectedTranslator_services] = useState([]);
 
     const [languages, setLanguages] = useState([]);
     const [selectedLanguages, setSelectedLanguages] = useState([]);
@@ -57,6 +61,7 @@ export default function TranslatorExperienceForm() {
 
     const [entity, setEntity] = useState({
         platforms: "",
+        translator_services: "",
         languages: "",
         specialities: "",
         experiences: [],
@@ -86,7 +91,8 @@ export default function TranslatorExperienceForm() {
             ...entity,
             from: "",
             to: "",
-            speciality :""
+            speciality :"",
+            translator_services: ""
         },
         onSubmit: values => {
 
@@ -112,10 +118,13 @@ export default function TranslatorExperienceForm() {
 
         let remote_tools = selectedPlatforms.map((item) => item.id)
 
+        let translator_services = selectedTranslator_services.map((item)=> item.id )
+
         let specialities = selectedSpecialities.map((item) => item.id)
 
         let payload = {
             remote_tools: JSON.stringify(remote_tools),
+            translator_services:JSON.stringify(translator_services),
             specialities: JSON.stringify(specialities),
             languages: JSON.stringify(selectedLanguages),
             work_experience: JSON.stringify(values.work_experience),
@@ -123,7 +132,7 @@ export default function TranslatorExperienceForm() {
             approved_translator: 1
         }
 
-        //console.log(payload)
+        console.log(payload)
 
         UsersAPI.updateUser(payload, localStorage.getItem("token")).then((res) => {
             let message = t('translator-profile.successful-changes')
@@ -161,13 +170,30 @@ export default function TranslatorExperienceForm() {
         getLanguages();
         getSpecialities();
         getProfile();
+        getServices();
     }, []);
 
     const getProfile = () => {
         UsersAPI.getUser({}, localStorage.getItem("userId"), localStorage.getItem("token")).then((res) => {
-            //console.log(res.user)
+            console.log(res.user)
             setEntity(res.user)
             if(res.user.remote_tools) setSelectedPlatforms(res.user.remote_tools)
+            //console.log(res.user.remote_tools,"remote")
+            
+            
+            if(res.user.translator_services){
+                
+                res.user.translator_services.forEach(element => {
+                    //console.log(element.name_es,"name_es")
+                    if(i18n.language=="ES"){
+                        element.name=element.name_es
+                    }else{
+                        element.name=element.name_en
+                    }
+                });
+            }
+            
+
             if(res.user.specialities){
                 res.user.specialities.forEach(element => {
                     if(i18n.language=="ES"){
@@ -178,7 +204,9 @@ export default function TranslatorExperienceForm() {
                 });
             }
             if(res.user.specialities) setSelectedSpecialities(res.user.specialities)
+            if(res.user.translator_services) setSelectedTranslator_services(res.user.translator_services)
             if(res.user.languages) setSelectedLanguages(res.user.languages)
+            console.log(res.user.translator_services,"objeto")
         })
     };
 
@@ -188,7 +216,22 @@ export default function TranslatorExperienceForm() {
             setPlatforms(res)
         })
     };
+    
+    const getServices = () => {
+        ServicesAPI.getServices(i18n.language).then((res) => {
 
+            res.forEach(element => {
+                if(i18n.language=="ES"){
+                    element.name=element.name_es
+                }else{
+                    element.name=element.name_en
+                }
+            })
+            setTranslator_services(res)
+            console.log(res)
+        })
+    }
+        
     const getLanguages = () => {
         LanguagesAPI.getLanguages().then((res) => {
             //console.log(res)
@@ -230,6 +273,11 @@ export default function TranslatorExperienceForm() {
                 newTags.splice(i, 1)
                 setSelectedPlatforms(newTags)
                 break;
+            case "translator_services":
+                newTags = selectedTranslator_services.slice(0)
+                newTags.splice(i, 1)
+                setSelectedTranslator_services(newTags)
+                break;
             case "specialities":
                 newTags = selectedSpecialities.slice(0)
                 newTags.splice(i, 1)
@@ -243,6 +291,10 @@ export default function TranslatorExperienceForm() {
             case "platforms":
                 current = platforms.filter((item)=> item.id == formik.values.platform )
                 setSelectedPlatforms([ ...selectedPlatforms, ...current ])
+                break;
+            case "translator_services":
+                current = translator_services.filter((item)=> item.id == formik.values.translator_services )
+                setSelectedTranslator_services([ ...selectedTranslator_services, ...current ])
                 break;
             case "specialities":
                 //console.log(selectedSpecialities)
@@ -428,6 +480,36 @@ export default function TranslatorExperienceForm() {
                     </Form.Control>
                     <Button className="add" onClick={() => onAddition('platforms')} >{t('add')}</Button>
                 </div>
+
+                <h6><b>Servicios {t('optional')}</b></h6>
+                <div className="platforms-panel">
+                    {selectedTranslator_services?.map((elm, index) => (
+                        <div key={index} className="item">
+                            <div><p>{elm.name}</p></div>
+                            <Button className="remove" onClick={() => onDelete(index, "translator_services")} >✕</Button>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="platform-select">
+                    <Form.Control
+                        as="select"
+                        id="translator_services"
+                        name="translator_services"
+                        className="form-control input-lg"
+                        onChange={e => {
+                            formik.handleChange(e);
+                        }}
+                        value={formik.values.translator_services}>
+                        <option value="">Todos los servicios</option>
+                        {translator_services?.map((elm) => (
+                            <option key={elm.id} value={elm.id} > {i18n.language=="ES" ? elm.name_es : elm.name_en } {}</option>
+                        ))}
+                    </Form.Control>
+                    <Button className="add" onClick={() => onAddition('translator_services')} >{t('add')}</Button>
+                </div>
+                
+                
 
                 {/* {selectedPlatforms && selectedPlatforms.length == 0 && submitAttempt ? (
                     <div className="alert alert-danger">{t('experience.tools-must')}</div>

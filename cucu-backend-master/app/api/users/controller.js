@@ -3,6 +3,7 @@ const languagesRepository = require('../languages/repository');
 const specialitiesRepository = require('../specialities/repository');
 const reviewsRepository = require('../reviews/repository');
 const platformsRepository = require('../platforms/repository');
+const serRepository = require('../services/repository')
 const servicesRepository = require('../translation_services/repository');
 const unavailabilitiesRepository = require('../unavailabilities/repository');
 const transactionsRepository = require('../transactions/repository');
@@ -38,7 +39,7 @@ async function index(req, res) {
     try {
         const users = await usersRepository.getUsers(page, page_limit, name, email, disabled, city_id, department_id, country_id);
         const languages = await languagesRepository.getAllLanguages();
-        const specialities = await specialitiesRepository.getAllSpecialities()
+        const specialities = await specialitiesRepository.getAllSpecialities();
 
 
         users.results.forEach(element => {
@@ -70,6 +71,8 @@ async function index(req, res) {
                 });
 
             }
+            
+            
         });
         
         return res.status(200).send({
@@ -148,6 +151,7 @@ async function getTranslators(req, res) {
             page_limit = 10,
             name = '',
             speciality_id = '',
+            service_id= '',
             languages = '',
             grade = '',
             min_price_minute = '',
@@ -166,10 +170,11 @@ async function getTranslators(req, res) {
     } = req;
 
     try {
-        let users = await usersRepository.getTranslators(name, speciality_id, languages, approved_translator, sort_by, sort_order, disabled);
+        let users = await usersRepository.getTranslators(name, speciality_id,service_id, languages, approved_translator, sort_by, sort_order, disabled);
         const repoLanguages = await languagesRepository.getAllLanguages();
         const specialities = await specialitiesRepository.getAllSpecialities()
         const platforms = await platformsRepository.getAllPlatforms()
+        //const translation_services = await serRepository.getAllSer()
 
         for (let i = 0; i < users.length; i++) {
 
@@ -235,6 +240,18 @@ async function getTranslators(req, res) {
                 });
 
             }
+            // console.log(translation_services)
+            // if(element.translation_services){
+            //     let cached = element.translation_services;
+            //     element.translation_services=[]
+            //     cached.forEach(service => {
+            //         let newService = (translation_services.filter(ser => ser.id == service))
+            //         if(newService[0]){
+            //             element.translation_services.push(...newService)
+            //         }
+            //     });
+
+            // }
 
             if(element.unavailable==false || ( min_available_time!='' && max_available_time!='' ) ){
 
@@ -368,7 +385,9 @@ async function getUser(req, res) {
         const repoLanguages = await languagesRepository.getAllLanguages();
         const specialities = await specialitiesRepository.getAllSpecialities()
         const platforms = await platformsRepository.getAllPlatforms()
-
+        const translator_services = await serRepository.getAllSer()
+        // console.log(translator_services)
+        // console.log(specialities)
         if(user){
             delete user.password
             
@@ -399,13 +418,15 @@ async function getUser(req, res) {
                 });
 
             } 
+            
 
             if(user.labor_months){
                 user.total_experience_years = Math.floor(user.labor_months/12)                
             }
-
+            
             if(user.remote_tools){
                 let cached = user.remote_tools;
+                 console.log(cached,"remote_tools")
                 user.remote_tools=[]
                 cached.forEach(platform => {
                     let newPlatform = (platforms.filter(plat => plat.id == platform))
@@ -415,6 +436,23 @@ async function getUser(req, res) {
                 });
 
             }
+            if(user.translator_services){
+                let cached = JSON.parse(user.translator_services);
+                // let cached = user.translator_services;
+                console.log(cached,"translator_services")
+                
+                user.translator_services=[]
+                
+                cached.forEach(service => {
+                    let newService = (translator_services.filter(ser => ser.id == service))
+                    console.log(newService,"ojo")
+                    if(newService[0]){
+                        user.translator_services.push(...newService)
+                    }
+                });
+            }
+            
+            console.log(user,"user")
 
             if(user.role == "2"){
                 const transactions = await transactionsRepository.getAllTransactionsTranslator(user.id)

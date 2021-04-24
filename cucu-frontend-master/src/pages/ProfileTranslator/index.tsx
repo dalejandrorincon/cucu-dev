@@ -68,6 +68,7 @@ function ProfileTranslatorPage({
         .then((response) => response.json())
         .then((responseJson) => {
           setTranslators(responseJson.user);
+          console.log(responseJson.user)
         })
         .catch((error) => {
           //console.log(error);
@@ -82,7 +83,7 @@ function ProfileTranslatorPage({
       .then((response) => response.json())
       .then((responseJson) => {
         setReviews(responseJson);
-        console.log(responseJson)
+        
       })
   };
 

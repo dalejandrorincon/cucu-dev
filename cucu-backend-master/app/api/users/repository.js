@@ -33,6 +33,7 @@ const fields = [
   'address_additional',
   'approved_translator',
   'remote_tools',
+  'translator_services',
   'admin_permissions',
   'created_at',
   'labor_months',
@@ -199,7 +200,7 @@ class Repository extends Base {
   }
 
 
-  getTranslators(name, speciality_id, languages, approved_translator, sort_by, sort_order, disabled) {
+  getTranslators(name, speciality_id, service_id, languages, approved_translator, sort_by, sort_order, disabled) {
     return this.model
       .query()
       .select(
@@ -223,6 +224,7 @@ class Repository extends Base {
         'image_url',
         'unavailable',
         'remote_tools',
+        'translator_services',
         'labor_months',
         'created_at'
       )
@@ -239,6 +241,7 @@ class Repository extends Base {
           this.whereJsonSupersetOf('specialities', parsed)
         }
       })
+      
 
       /* .andWhere(function () {
         if(languages){
@@ -303,6 +306,7 @@ class Repository extends Base {
         'address_additional',
         'approved_translator',
         'remote_tools',
+        'translator_services',
         'admin_permissions',
         'stripe_id'
       )
@@ -338,6 +342,7 @@ class Repository extends Base {
         'disabled',
         'unavailable',
         'remote_tools',
+        'translator_services',
         'certifications',
         'phone',
         'email'
