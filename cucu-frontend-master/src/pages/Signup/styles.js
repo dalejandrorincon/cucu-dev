@@ -39,6 +39,18 @@ margin-left: 5px;
   text-decoration: underline;
 }
 `;
+export const GoToContact = styled.a`
+text-align: left;
+text-decoration: underline;
+font: normal normal normal 15px Acumin Pro;
+letter-spacing: 0px;
+color: #863df9;
+margin-left: 5px;
+&:hover {
+  color: #863df9;
+  text-decoration: underline;
+}
+`;
 
 export const ForgotPasswordLink = styled(Link)`
 text-align: left;

@@ -19,7 +19,8 @@ import {
   ShowPassword,
   PasswordInfo,
   FormCheck,
-  FormCheckLabel
+  FormCheckLabel,
+  GoToContact
 } from "./styles"
 
 import * as UsersAPI from '../../api/users';
@@ -32,7 +33,7 @@ import LanguageSelector from "../../components/LanguageSelector";
 function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showVerifyPassword, setShowVerifyPassword] = useState(false);
-  const [role, setRole] = useState("3");
+  const [role, setRole] = useState("2");
   const [type, setType] = useState("client");
   const { register, handleSubmit, watch, errors } = useForm();
   const history = useHistory();
@@ -111,17 +112,22 @@ function SignupPage() {
           <Signup className="signup">
             <Logo src="/assets/images/logo.png"></Logo>
             <Title>{t('sign-up-client.sign-up')}</Title>
+            <SignupInfo>
+              ¿Quieres ser cliente de cucu?
+              <GoToContact href="https://cucu.us/contact/" target="_blank">Contactanos</GoToContact>
+            </SignupInfo>
             <Row>
-              <Col>
+              {/* <Col>
                 {ButtonActiveOrInactive(role === "3" || role=="4", t('sign-up-client.user'), () => {
                   setRole("3");
                 })}
-              </Col>
+              </Col> */}
               <Col>
                 {ButtonActiveOrInactive(role === "2", t('sign-up-client.translator'), () => {
                   setRole("2");
                 })}
               </Col>
+              
             </Row>
             <LanguageSelector></LanguageSelector>
             <SignupInfo>

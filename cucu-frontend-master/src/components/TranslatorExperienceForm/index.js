@@ -30,11 +30,11 @@ export default function TranslatorExperienceForm() {
 
     const [response, setResponse] = useState(null)
 
-    const [platforms, setPlatforms] = useState([]);
-    const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+    // const [platforms, setPlatforms] = useState([]);
+    // const [selectedPlatforms, setSelectedPlatforms] = useState([]);
 
-    const [translator_services, setTranslator_services] = useState([]);
-    const [selectedTranslator_services, setSelectedTranslator_services] = useState([]);
+    // const [translator_services, setTranslator_services] = useState([]);
+    // const [selectedTranslator_services, setSelectedTranslator_services] = useState([]);
 
     const [languages, setLanguages] = useState([]);
     const [selectedLanguages, setSelectedLanguages] = useState([]);
@@ -60,8 +60,8 @@ export default function TranslatorExperienceForm() {
 
 
     const [entity, setEntity] = useState({
-        platforms: "",
-        translator_services: "",
+        // platforms: "",
+        // translator_services: "",
         languages: "",
         specialities: "",
         experiences: [],
@@ -92,7 +92,7 @@ export default function TranslatorExperienceForm() {
             from: "",
             to: "",
             speciality :"",
-            translator_services: ""
+            // translator_services: ""
         },
         onSubmit: values => {
 
@@ -116,15 +116,15 @@ export default function TranslatorExperienceForm() {
 
     const saveChanges = (values) => {
 
-        let remote_tools = selectedPlatforms.map((item) => item.id)
+        // let remote_tools = selectedPlatforms.map((item) => item.id)
 
-        let translator_services = selectedTranslator_services.map((item)=> item.id )
+        // let translator_services = selectedTranslator_services.map((item)=> item.id )
 
         let specialities = selectedSpecialities.map((item) => item.id)
 
         let payload = {
-            remote_tools: JSON.stringify(remote_tools),
-            translator_services:JSON.stringify(translator_services),
+            // remote_tools: JSON.stringify(remote_tools),
+            // translator_services:JSON.stringify(translator_services),
             specialities: JSON.stringify(specialities),
             languages: JSON.stringify(selectedLanguages),
             work_experience: JSON.stringify(values.work_experience),
@@ -166,32 +166,32 @@ export default function TranslatorExperienceForm() {
 
 
     useEffect(() => {
-        getPlatforms();
+        // getPlatforms();
         getLanguages();
         getSpecialities();
         getProfile();
-        getServices();
+        // getServices();
     }, []);
 
     const getProfile = () => {
         UsersAPI.getUser({}, localStorage.getItem("userId"), localStorage.getItem("token")).then((res) => {
             console.log(res.user)
             setEntity(res.user)
-            if(res.user.remote_tools) setSelectedPlatforms(res.user.remote_tools)
-            //console.log(res.user.remote_tools,"remote")
+            // if(res.user.remote_tools) setSelectedPlatforms(res.user.remote_tools)
+            // //console.log(res.user.remote_tools,"remote")
             
             
-            if(res.user.translator_services){
+            // if(res.user.translator_services){
                 
-                res.user.translator_services.forEach(element => {
-                    //console.log(element.name_es,"name_es")
-                    if(i18n.language=="ES"){
-                        element.name=element.name_es
-                    }else{
-                        element.name=element.name_en
-                    }
-                });
-            }
+            //     res.user.translator_services.forEach(element => {
+            //         //console.log(element.name_es,"name_es")
+            //         if(i18n.language=="ES"){
+            //             element.name=element.name_es
+            //         }else{
+            //             element.name=element.name_en
+            //         }
+            //     });
+            // }
             
 
             if(res.user.specialities){
@@ -204,33 +204,33 @@ export default function TranslatorExperienceForm() {
                 });
             }
             if(res.user.specialities) setSelectedSpecialities(res.user.specialities)
-            if(res.user.translator_services) setSelectedTranslator_services(res.user.translator_services)
+            // if(res.user.translator_services) setSelectedTranslator_services(res.user.translator_services)
             if(res.user.languages) setSelectedLanguages(res.user.languages)
-            console.log(res.user.translator_services,"objeto")
+            // console.log(res.user.translator_services,"objeto")
         })
     };
 
-    const getPlatforms = () => {
-        PlatformsAPI.getPlatforms().then((res) => {
-            //console.log(res)
-            setPlatforms(res)
-        })
-    };
+    // const getPlatforms = () => {
+    //     PlatformsAPI.getPlatforms().then((res) => {
+    //         //console.log(res)
+    //         setPlatforms(res)
+    //     })
+    // };
     
-    const getServices = () => {
-        ServicesAPI.getServices(i18n.language).then((res) => {
+    // const getServices = () => {
+    //     ServicesAPI.getServices(i18n.language).then((res) => {
 
-            res.forEach(element => {
-                if(i18n.language=="ES"){
-                    element.name=element.name_es
-                }else{
-                    element.name=element.name_en
-                }
-            })
-            setTranslator_services(res)
-            console.log(res)
-        })
-    }
+    //         res.forEach(element => {
+    //             if(i18n.language=="ES"){
+    //                 element.name=element.name_es
+    //             }else{
+    //                 element.name=element.name_en
+    //             }
+    //         })
+    //         setTranslator_services(res)
+    //         console.log(res)
+    //     })
+    // }
         
     const getLanguages = () => {
         LanguagesAPI.getLanguages().then((res) => {
@@ -268,16 +268,16 @@ export default function TranslatorExperienceForm() {
     const onDelete = (i, type) => {
         let newTags
         switch (type) {
-            case "platforms":
-                newTags = selectedPlatforms.slice(0)
-                newTags.splice(i, 1)
-                setSelectedPlatforms(newTags)
-                break;
-            case "translator_services":
-                newTags = selectedTranslator_services.slice(0)
-                newTags.splice(i, 1)
-                setSelectedTranslator_services(newTags)
-                break;
+            // case "platforms":
+            //     newTags = selectedPlatforms.slice(0)
+            //     newTags.splice(i, 1)
+            //     setSelectedPlatforms(newTags)
+            //     break;
+            // case "translator_services":
+            //     newTags = selectedTranslator_services.slice(0)
+            //     newTags.splice(i, 1)
+            //     setSelectedTranslator_services(newTags)
+            //     break;
             case "specialities":
                 newTags = selectedSpecialities.slice(0)
                 newTags.splice(i, 1)
@@ -288,14 +288,14 @@ export default function TranslatorExperienceForm() {
     const onAddition = (type) => {
         let current;
         switch (type) {
-            case "platforms":
-                current = platforms.filter((item)=> item.id == formik.values.platform )
-                setSelectedPlatforms([ ...selectedPlatforms, ...current ])
-                break;
-            case "translator_services":
-                current = translator_services.filter((item)=> item.id == formik.values.translator_services )
-                setSelectedTranslator_services([ ...selectedTranslator_services, ...current ])
-                break;
+            // case "platforms":
+            //     current = platforms.filter((item)=> item.id == formik.values.platform )
+            //     setSelectedPlatforms([ ...selectedPlatforms, ...current ])
+            //     break;
+            // case "translator_services":
+            //     current = translator_services.filter((item)=> item.id == formik.values.translator_services )
+            //     setSelectedTranslator_services([ ...selectedTranslator_services, ...current ])
+            //     break;
             case "specialities":
                 //console.log(selectedSpecialities)
                 current = specialities.filter((item)=> item.id == formik.values.speciality )
@@ -451,9 +451,9 @@ export default function TranslatorExperienceForm() {
         <div className="translator-experience-form">
 
             <Title>{t('experience.experience')}</Title>
-          
+
             <Form onSubmit={formik.handleSubmit}>
-                <h6><b>{t('experience.remote-tools')} {t('optional')}</b></h6>
+                {/* <h6><b>{t('experience.remote-tools')} {t('optional')}</b></h6>
                 <div className="platforms-panel">
                     {selectedPlatforms?.map((elm, index) => (
                         <div key={index} className="item">
@@ -461,9 +461,9 @@ export default function TranslatorExperienceForm() {
                             <Button className="remove" onClick={() => onDelete(index, "platforms")} >✕</Button>
                         </div>
                     ))}
-                </div>
+                </div> */}
 
-                <div className="platform-select">
+                {/* <div className="platform-select">
                     <Form.Control
                         as="select"
                         id="platform"
@@ -479,13 +479,13 @@ export default function TranslatorExperienceForm() {
                         ))}
                     </Form.Control>
                     <Button className="add" onClick={() => onAddition('platforms')} >{t('add')}</Button>
-                </div>
+                </div> */}
 
-                <h6><b>Servicios {t('optional')}</b></h6>
+                {/* <h6><b>{t('experience.services')}</b><span className="required">*</span></h6>
                 <div className="platforms-panel">
                     {selectedTranslator_services?.map((elm, index) => (
                         <div key={index} className="item">
-                            <div><p>{elm.name}</p></div>
+                            <div><p>{i18n.language=="ES" ? elm.name_es : elm.name_en }</p></div>
                             <Button className="remove" onClick={() => onDelete(index, "translator_services")} >✕</Button>
                         </div>
                     ))}
@@ -507,7 +507,7 @@ export default function TranslatorExperienceForm() {
                         ))}
                     </Form.Control>
                     <Button className="add" onClick={() => onAddition('translator_services')} >{t('add')}</Button>
-                </div>
+                </div> */}
                 
                 
 

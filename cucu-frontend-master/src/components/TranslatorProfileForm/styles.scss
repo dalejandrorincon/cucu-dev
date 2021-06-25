@@ -1,0 +1,32 @@
+    .platform-select, .speciality-select{
+        display: flex;
+        select{
+            display: inline-block;
+            width: 20%;
+            font-size: 15px;
+            width: 100%;    
+            border-radius: 0px;
+        }
+
+        button{
+            color: black !important;
+            background-color: #F3F3F3;
+            border: 1px solid #F3F3F3;
+            font-size: 12px;
+
+            &.add{
+                height: 37px;
+                margin-left: 5px;
+            }
+            outline: none;
+            box-shadow: none !important;
+        }
+        .add:hover{
+            color: black !important;
+            background-color: #F3F3F3;
+            border: 1px solid #F3F3F3;
+            font-size: 12px;
+        }
+    }
+
+
