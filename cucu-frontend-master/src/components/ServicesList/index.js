@@ -9,7 +9,7 @@ import { useFormik, useFormikContext } from 'formik';
 import "./styles.scss"
 import * as ServicesAPI from '../../api/services';
 import ServiceModal from "../../components/ServiceModal"
-import {itemStatusLabel, getWindowDimensions} from "../../utils/constants"
+import { itemStatusLabel, getWindowDimensions } from "../../utils/constants"
 import { useTranslation } from 'react-i18next';
 import { getNotifications } from "../../api/notifications";
 export default function TranslatorServices() {
@@ -24,10 +24,10 @@ export default function TranslatorServices() {
 	const [services, setServices] = useState([]);
 	const { t, i18n } = useTranslation();
 	const { id } = useParams();
-    const history = useHistory();
-	
+	const history = useHistory();
+
 	const [openFilter, setOpenFilter] = useState(false);
-	
+
 	const formik = useFormik({
 		initialValues: {
 			service_type: "",
@@ -48,18 +48,18 @@ export default function TranslatorServices() {
 
 	});
 
-	const getNotificationService = (serv=null) =>{
-		if(id && initial==true){
+	const getNotificationService = (serv = null) => {
+		if (id && initial == true) {
 			let currentService;
-			if(serv==null){
+			if (serv == null) {
 				serv = services
 			}
-			serv.forEach((service)=>{
-				if (parseInt(service.id) == id){
+			serv.forEach((service) => {
+				if (parseInt(service.id) == id) {
 					currentService = service
 				}
 			})
-			if(currentService){
+			if (currentService) {
 				setActiveService(currentService)
 				setIsModalVisible(true)
 			}
@@ -67,8 +67,8 @@ export default function TranslatorServices() {
 		}
 	}
 
-	const getUserType = () =>{
-		let role=""
+	const getUserType = () => {
+		let role = ""
 		switch (localStorage.getItem("role")) {
 			case "1":
 				role = "admin"
@@ -100,11 +100,11 @@ export default function TranslatorServices() {
 
 
 	const getServices = (type) => {
-		if(options){
+		if (options) {
 			options.name = options?.name?.toLowerCase()
 		}
 		ServicesAPI.getServices(type, localStorage.getItem("token"), options).then((res) => {
-			//console.log(res.results)
+			console.log(res.results)
 			setServices(res.results)
 			setPageCount(res.pages)
 			getNotificationService(res.results)
@@ -128,7 +128,7 @@ export default function TranslatorServices() {
 
 	}
 
-	const handleDateChange = (e, type) =>{
+	const handleDateChange = (e, type) => {
 		let name = type
 		let val = e
 		setOptions({
@@ -137,10 +137,10 @@ export default function TranslatorServices() {
 		})
 	}
 
-	const responsiveFilter = () =>{
+	const responsiveFilter = () => {
 		//console.log(getWindowDimensions())
-		if (getWindowDimensions()>767){
-		  setOpenFilter(true)
+		if (getWindowDimensions() > 767) {
+			setOpenFilter(true)
 		}
 	}
 
@@ -151,157 +151,166 @@ export default function TranslatorServices() {
 				<Col className="col-md-12">
 					<Title>{t('request-list.my-requests')}</Title>
 					<WellContainer>
-							<div className="card-header titleFilter filter-controls"
-								onClick={() => setOpenFilter(!openFilter)}>
-								{t('translators-list.filter-by')}
-								<span className="filter-label-arrow">
-									{ openFilter ? "\u25B2": "\u25BC"}
-								</span>
-							</div>
-							<Collapse in={openFilter}>
-							<div>									
-							<Row className="filters">								
-								<Col>
-									<Form.Group>
-										<Form.Control
-											as="select"
-											id="service_type"
-											name="service_type"
-											className="form-control input-lg"
+						<div className="card-header titleFilter filter-controls"
+							onClick={() => setOpenFilter(!openFilter)}>
+							{t('translators-list.filter-by')}
+							<span className="filter-label-arrow">
+								{openFilter ? "\u25B2" : "\u25BC"}
+							</span>
+						</div>
+						<Collapse in={openFilter}>
+							<div>
+								<Row className="filters">
+									<Col>
+										<Form.Group>
+											<Form.Control
+												as="select"
+												id="service_type"
+												name="service_type"
+												className="form-control input-lg"
+												onChange={e => {
+													formik.handleChange(e);
+													handleInputChange(e)
+												}}
+												value={formik.values.service_type}>
+												<option value="">{t('request-list.any-type')}</option>
+												{/* <option value="0">{t('request-list.instant')}</option> */}
+												<option value="Simultaneous traduction">{t('s_interpretation')}</option>
+												<option value="Write translation">{t('written')}</option>
+												<option value="VoiceOver">Voiceover</option>
+												<option value="Subtitulation">{t('subtitling')}</option>
+
+											</Form.Control>
+										</Form.Group>
+									</Col>
+
+									<Col>
+										<Form.Group>
+											<Form.Control
+												as="select"
+												id="status"
+												name="status"
+												className="form-control input-lg"
+												onChange={e => {
+													formik.handleChange(e);
+													handleInputChange(e)
+												}}
+												value={formik.values.status}>
+												<option value="">{t('any-status')}</option>
+												<option value="0">{t('status-0')}</option>
+												<option value="1">{getUserType() == "client" ? t('status-1-client') : t('status-1')}</option>
+												<option value="2">{t('status-2')}</option>
+												<option value="3">{t('status-3')}</option>
+												<option value="4">{t('status-4')}</option>
+												<option value="5">{t('status-5')}</option>
+											</Form.Control>
+										</Form.Group>
+									</Col>
+
+									<Col>
+										<Form.Group>
+											<Form.Control
+												as="select"
+												id="sort_by"
+												name="sort_by"
+												className="form-control input-lg"
+												onChange={e => {
+													formik.handleChange(e);
+													handleInputChange(e)
+												}}
+												value={formik.values.sort_by}>
+												<option value="date">{t('most-recent')}</option>
+												<option value="date_asc">{t('least-recent')}</option>
+												<option value="duration_amount">{t('length')}</option>
+												<option value="amount">{t('rate-price')}</option>
+											</Form.Control>
+										</Form.Group>
+									</Col>
+
+									<Col>
+										<Form.Group>
+											<Form.Control
+												as="select"
+												id="duration_type"
+												name="duration_type"
+												className="form-control input-lg"
+												onChange={e => {
+													formik.handleChange(e);
+													handleInputChange(e)
+												}}
+												value={formik.values.duration_type}>
+												<option value="">{t('all-durations')}</option>
+												<option value="0">{t('hours')}</option>
+												<option value="1">{t('minutes')}</option>
+												<option value="2">{t('fullday')}</option>
+												<option value="3">{t('halfday')}</option>
+												<option value="4">{t('pages')}</option>
+												<option value="5">{t('minutes')} {t('subtitling')}</option>
+												<option value="6">{t('minutes')} VoiceOver</option>	
+											</Form.Control>
+										</Form.Group>
+									</Col>
+
+									<Col>
+										<DatePicker
+											className="form-control"
+											closeOnScroll={true}
+											id="min_date"
+											name="min_date"
+											selected={formik.values.min_date}
 											onChange={e => {
-												formik.handleChange(e);
-												handleInputChange(e)
+												formik.setFieldValue("min_date", e)
+												handleDateChange(e, "min_date")
 											}}
-											value={formik.values.service_type}>
-											<option value="">{t('request-list.any-type')}</option>
-											{/* <option value="0">{t('request-list.instant')}</option> */}
-											<option value="1">{t('request-list.programmed')}</option>
-										</Form.Control>
-									</Form.Group>
-								</Col>
-
-								<Col>
-									<Form.Group>
-										<Form.Control
-											as="select"
-											id="status"
-											name="status"
-											className="form-control input-lg"
-											onChange={e => {
-												formik.handleChange(e);
-												handleInputChange(e)
-											}}
-											value={formik.values.status}>
-											<option value="">{t('any-status')}</option>
-											<option value="0">{t('status-0')}</option>
-											<option value="1">{ getUserType()=="client" ? t('status-1-client') : t('status-1') }</option>
-											<option value="2">{t('status-2')}</option>
-											<option value="3">{t('status-3')}</option>
-											<option value="4">{t('status-4')}</option>
-											<option value="5">{t('status-5')}</option>
-										</Form.Control>
-									</Form.Group>
-								</Col>
-
-								<Col>
-									<Form.Group>
-										<Form.Control
-											as="select"
-											id="sort_by"
-											name="sort_by"
-											className="form-control input-lg"
-											onChange={e => {
-												formik.handleChange(e);
-												handleInputChange(e)
-											}}
-											value={formik.values.sort_by}>
-											<option value="date">{t('most-recent')}</option>
-											<option value="date_asc">{t('least-recent')}</option>
-											<option value="duration_amount">{t('length')}</option>
-											<option value="amount">{t('rate-price')}</option>
-										</Form.Control>
-									</Form.Group>
-								</Col>
-
-								<Col>
-									<Form.Group>
-										<Form.Control
-											as="select"
-											id="duration_type"
-											name="duration_type"
-											className="form-control input-lg"
-											onChange={e => {
-												formik.handleChange(e);
-												handleInputChange(e)
-											}}
-											value={formik.values.duration_type}>
-											<option value="">{t('all-durations')}</option>
-											<option value="0">{t('hours')}</option>
-											<option value="1">{t('minutes')}</option>
-										</Form.Control>
-									</Form.Group>
-								</Col>
-
-								<Col>
-									<DatePicker
-										className="form-control"
-										closeOnScroll={true}
-										id="min_date"
-										name="min_date"
-										selected={formik.values.min_date}
-										onChange={e => {
-											formik.setFieldValue("min_date", e)
-											handleDateChange(e, "min_date")
-										}}
-										dateFormat="dd/MM/yyyy"
-										placeholderText={t('time-from')}
-									/>
-								</Col>
-
-								<Col>
-									<DatePicker
-										className="form-control"
-										closeOnScroll={true}
-										id="max_date"
-										name="max_date"
-										selected={formik.values.max_date}
-										onChange={e => {
-											formik.setFieldValue("max_date", e)
-											handleDateChange(e, "max_date")
-											
-										}}
-										dateFormat="dd/MM/yyyy"
-										placeholderText={t('time-to')}
-									/>
-								</Col>
-
-								<Col>
-									<Form.Group>
-										<Form.Control
-											placeholder={ getUserType()=="translator" ? t('request-list.search-by-client') : t('request-list.search-by-translator') }
-											id="name"
-											name="name"
-											type="text"
-											value={formik.values.name}
-											onChange={(e) => {
-												handleInputChange(e)
-												formik.handleChange(e)
-											}}
+											dateFormat="dd/MM/yyyy"
+											placeholderText={t('time-from')}
 										/>
-									</Form.Group>
-								</Col>
-							</Row>
+									</Col>
+
+									<Col>
+										<DatePicker
+											className="form-control"
+											closeOnScroll={true}
+											id="max_date"
+											name="max_date"
+											selected={formik.values.max_date}
+											onChange={e => {
+												formik.setFieldValue("max_date", e)
+												handleDateChange(e, "max_date")
+
+											}}
+											dateFormat="dd/MM/yyyy"
+											placeholderText={t('time-to')}
+										/>
+									</Col>
+
+									<Col>
+										<Form.Group>
+											<Form.Control
+												placeholder={getUserType() == "translator" ? t('request-list.search-by-client') : t('request-list.search-by-translator')}
+												id="name"
+												name="name"
+												type="text"
+												value={formik.values.name}
+												onChange={(e) => {
+													handleInputChange(e)
+													formik.handleChange(e)
+												}}
+											/>
+										</Form.Group>
+									</Col>
+								</Row>
 							</div>
-							</Collapse>
+						</Collapse>
 						<div className="table-responsive">
 							<table className="table ">
 								<thead className="thead-light table-services">
 									<tr>
 										<th scope="col">
-											{ getUserType()=="translator" ? <>{t('client')}</> : <>{t('translator')}</>}
+											{getUserType() == "translator" ? <>{t('client')}</> : <>{t('translator')}</>}
 										</th>
 										<th scope="col">{t('request-list.request-type')}</th>
-										<th scope="col">{t('request-list.duration')}</th>
+										<th scope="col">Valor</th>
 										<th scope="col">{t('request-list.charges')}</th>
 										<th scope="col">{t('request-list.date-time')}</th>
 										<th scope="col">{t('request-list.status')}</th>
@@ -315,30 +324,30 @@ export default function TranslatorServices() {
 											<td className="user-container">
 												<div className="userIcon">
 													<div>
-													{ getUserType()=="translator" ? 
-														<img														
-															src={ele.client?.image_url ? ele.client.image_url : "/assets/images/no_avatar_default.png"}
-															className="image-icon ico-user"
-														/>
-														:
-														<img
-														
-															src={ele.translator?.image_url ? ele.translator.image_url : "/assets/images/no_avatar_default.png"}
-															className="image-icon ico-user"
-														/>
-													}
+														{getUserType() == "translator" ?
+															<img
+																src={ele.client?.image_url ? ele.client.image_url : "/assets/images/no_avatar_default.png"}
+																className="image-icon ico-user"
+															/>
+															:
+															<img
+
+																src={ele.translator?.image_url ? ele.translator.image_url : "/assets/images/no_avatar_default.png"}
+																className="image-icon ico-user"
+															/>
+														}
 													</div>
 													<div>
 														<p className="name">
 															<b>
-											                { getUserType()=="translator" ? 
-															ele.client?.firstname+ " "+
-															ele.client?.lastname 
-															: 
-															ele.translator?.firstname+" "+
-															ele.translator?.lastname
-															
-															}
+																{getUserType() == "translator" ?
+																	ele.client?.firstname + " " +
+																	ele.client?.lastname
+																	:
+																	ele.translator?.firstname + " " +
+																	ele.translator?.lastname
+
+																}
 															</b>
 															<div className="price">
 																${Math.round(ele.amount * 100) / 100}
@@ -347,9 +356,38 @@ export default function TranslatorServices() {
 													</div>
 												</div>
 											</td>
-											<td>{ele.service_type === "0" ? t('instant') : t('programmed')} </td>
+											{ele.service_type === "Interpretación simultánea" || ele.service_type === "Simultaneous interpretation"?
+												<td>{t('s_interpretation')}</td>
+												: null}
+											{ele.service_type === "Subtitling" || ele.service_type === "Subtitulación"?
+												<td>{t('subtitling')}</td>
+												: null}
+											{ele.service_type === "Traducción escrita" || ele.service_type === "Written translation"?
+												<td>{t('written')}</td>
+												: null}
+											{ele.service_type === "Voiceover" ?
+												<td>{"VoiceOver"}</td>
+												: null}
+											{ele.service_type === "1" ?
+												<td>{"Programado"} </td>
+												: null}
 											<td>{ele.duration_amount}</td>
-											<td>{ele.duration_type === "0" ?  t('hour') :  t('minute')}{ele.duration_amount > 1 ? "s" : null}</td>
+											{ele.duration_type === "0" || ele.duration_type === "1" ?
+												<td>{ele.duration_type === "0" ? t('hour') : t('minute')}{ele.duration_amount > 1 ? "s" : null}</td>
+												: null}
+											{ele.duration_type === "2" || ele.duration_type === "3" ?
+												<td>{ele.duration_type === "2" ? t('fullday') : t('halfday')}</td>
+												: null}
+											{ele.duration_type === "4" ?
+												<td>{t('pages')}</td>
+												: null}
+											{ele.duration_type === "5" ?
+												<td>{t('minutes')}</td>
+												: null}
+											{ele.duration_type === "6" ?
+												<td>{t('minutes')}</td>
+												: null}
+
 											<td>{moment(ele.date).format("D MMM  YYYY - hh:mm a")}</td>
 											<td>
 												{itemStatusLabel(ele.status)}
@@ -367,9 +405,41 @@ export default function TranslatorServices() {
 												</Button>
 											</td>
 											<td className="mobile-item">
-												<p><b>{t('request-list.request-type')}:</b> {ele.service_type === "0" ? t('instant') : t('programmed')} </p>
-												<p><b>{t('request-list.duration')}:</b> {ele.duration_amount}</p>
-												<p><b>{t('request-list.charges')}:</b> {ele.duration_type === "0" ?  t('hour') :  t('minute')}{ele.duration_amount > 1 ? "s" : null}</p>
+												<p><b>{t('request-list.request-type')}:</b>
+													{ele.service_type === "Interpretación simultánea" || ele.service_type === "Simultaneous interpretation"?
+														"Traducción simultanea"
+														: null}
+													{ele.service_type === "Subtitling" || ele.service_type === "Subtitulación" ?
+														"Subtitulación"
+														: null}
+													{ele.service_type === "Traducción escrita" || ele.service_type === "Written translation" ?
+														"Traducción escrita"
+														: null}
+													{ele.service_type === "Voiceover" ?
+														"VoiceOver"
+														: null}
+													{ele.service_type === "1" ?
+														"Programado"
+														: null}
+												</p>
+												<p><b>Valor:</b> {ele.duration_amount}</p>
+												<p><b>{t('request-list.charges')}:</b>
+													{ele.duration_type === "0" || ele.duration_type === "1" ?
+														<>{ele.duration_type === "0" ? t('hour') : t('minute')}{ele.duration_amount > 1 ? "s" : null}</>
+														: null}
+													{ele.duration_type === "2" || ele.duration_type === "3" ?
+														<>{ele.duration_type === "2" ? t('fullday') : t('halfday')}</>
+														: null}
+													{ele.duration_type === "4" ?
+														<>{t('pages')}</>
+														: null}
+													{ele.duration_type === "5" ?
+														<>{t('minutes')}</>
+														: null}
+													{ele.duration_type === "6" ?
+														<>{t('minutes')}</>
+														: null}
+												</p>
 												<p><b>{t('request-list.date-time')}:</b> {moment(ele.date).format("D MMM  YYYY - hh:mm a")}</p>
 												<p><b>{t('request-list.status')}:</b> {itemStatusLabel(ele.status)}</p>
 												<Button
@@ -409,15 +479,15 @@ export default function TranslatorServices() {
 				</Col>
 			</Container>
 
-			<ServiceModal 
-				updateServices={()=>{
+			<ServiceModal
+				updateServices={() => {
 					setIsModalVisible(false)
 					getServices(getUserType())
 				}}
-				updateServicesPersist={()=>{
+				updateServicesPersist={() => {
 					getServices(getUserType())
 				}}
-				service={activeService} 
+				service={activeService}
 				onHide={() => setIsModalVisible(false)}
 				show={isModalVisible}
 			></ServiceModal>

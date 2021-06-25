@@ -101,10 +101,10 @@ export default function CheckoutForm(props) {
 		<>
 			<div className={available=="1" ? 'service-info' : 'hidden' }>
 				<p className="service-amount">${props.service?.amount}</p>
-				<p className="service-duration">
-					${props.service?.duration_type == "0" ? props.service?.translator?.rate_hour : props.service?.translator?.rate_minute}
+				{/* <p className="service-duration">
+					${props.service?.duration_type == "0"  ? props.service?.translator?.rate_hour : props.service?.translator?.rate_minute}
 					/{props.service?.duration_type == "0" ? "hr" : "min"} x {props.service?.duration_amount}
-				</p>
+				</p> */}
 
 
 			</div>

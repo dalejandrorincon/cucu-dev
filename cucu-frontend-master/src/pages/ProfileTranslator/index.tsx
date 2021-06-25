@@ -48,6 +48,8 @@ function ProfileTranslatorPage({
   const { id } = useParams();
   const [isVisible, setisVisible] = useState(false);
   const [isVisibleCertificate, setisVisibleCertificate] = useState(false);
+  const [isVisiblePrices, setisVisiblePrices] = useState(false);
+
   const [isVisibleWorkCert, setisVisibleWorkCert] = useState(false);
   const [certificate, setCertificate] = useState<any>([]);
   const [countries, setCountries] = useState<any>([]);
@@ -68,6 +70,7 @@ function ProfileTranslatorPage({
         .then((response) => response.json())
         .then((responseJson) => {
           setTranslators(responseJson.user);
+          console.log(responseJson.user)
         })
         .catch((error) => {
           //console.log(error);
@@ -82,7 +85,7 @@ function ProfileTranslatorPage({
       .then((response) => response.json())
       .then((responseJson) => {
         setReviews(responseJson);
-        console.log(responseJson)
+        
       })
   };
 
@@ -161,10 +164,52 @@ function ProfileTranslatorPage({
                       <Col>
                         <Row>
                           <Col>
-                            <p className="price-hour">
-                              ${translators?.rate_hour}/{t('translator_profile.rate-hr')} | $
-                              {translators?.rate_minute}/{t('translator_profile.rate-min')}
-                            </p>
+                          <p className="price-hour">
+                                 <a onClick={() => {
+                                    setisVisiblePrices(true);
+                        
+                                  }}className="see-cer badge badge-light">
+                                    {t('translator-profile.prices')}
+                                  </a>
+                              <Modal
+                                show={isVisiblePrices}
+                                onHide={() => {
+                                  setisVisiblePrices(false);
+                                }}
+                                autoFocus
+                                keyboard
+                                size="lg"
+                              >
+                                <Modal.Header closeButton>
+                                  <Modal.Title>{t('translator-profile.prices')}</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body className="mx-auto">
+                                {translators.rate_hour &&  translators.rate_hour.length !== 0 ?
+                                <p className="rate-home"><strong>${translators?.rate_hour}/{t('translator_profile.rate-hr')}</strong></p>
+                              :null}
+                                {translators.rate_minute && translators.rate_minute !== 0 ?
+                                <p className="rate-home"><strong>${translators?.rate_minute}/{t('translator_profile.rate-min')}</strong></p>
+                              :null}
+                                {translators.half_day && translators.half_day.length != 0 ?
+                                <p className="rate-home"><strong>${translators?.half_day}/{t('translator-profile.half_day')}</strong></p>
+                              :null}
+                                {translators.full_day && translators.full_day !== 0 ?  
+                                <p className="rate-home"><strong>${translators?.full_day}/{t('translator-profile.full_day')}</strong></p>
+                              :null}
+                                {translators.rate_page && translators.rate_page.length !== 0 ?
+                                <p className="rate-home"><strong>${translators?.rate_page}/{t('translator-profile.rate_page')}</strong></p>
+                              :null}
+                                {translators.s_rate_min && translators.s_rate_min.length !== 0 ?
+                                <p className="rate-home"><strong>${translators?.s_rate_min}/{t('translator_profile.rate_s_min')}</strong></p>
+                              :null}
+                                { translators.v_rate_min && translators.v_rate_min.length !== 0 ?
+                                <p className="rate-home"><strong>${translators?.v_rate_min}/{t('translator_profile.rate_v_min')}</strong></p>
+                              :null}
+                                
+                                </Modal.Body>
+                              </Modal>
+                              </p>
+                            
                             <p className="price-hour">
                             {t('translator_profile.total_services')}: {translators?.total_services}
                             </p>
@@ -191,6 +236,22 @@ function ProfileTranslatorPage({
                             </p>
                           </Col>
                           <Col className="col-md-12 col-margin">
+                          
+                          {translators.translators_services =! null ?
+                          <Row className="border-cont">
+                          <Col>
+                          <p>{t('translator_profile.services')}</p>
+                          {translators?.translator_services?.map((sp: any) => (
+                            <span className="badge badge-light">
+                              {i18next.language=="ES" ? sp.name_es : sp.name_en}
+                            </span>
+                          ))}
+                          </Col>
+                          </Row>
+                          :null
+                        }
+                        </Col>
+                        <Col className="col-md-12 col-margin">
                             <Row className="border-cont">
                               <Col>
                                 <p>{t('translator_profile.specialized')}</p>

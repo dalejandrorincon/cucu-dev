@@ -4,7 +4,7 @@ import {uploadApi} from './uploadApi';
 
 export const getUser = (payload, id, token) => {
   const URL = `/users/`+id;
-  //console.log(payload)
+  // console.log(payload)
   return api(URL, {
     method: 'GET',
     headers: {

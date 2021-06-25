@@ -28,6 +28,7 @@ import { useTranslation } from 'react-i18next';
 
 
 export default function ServiceModal(props) {
+    
   const [statusButtons, setStatusButtons] = useState(null);
   const [modalCancel, setModalCancel] = useState(false);
   const [modalRate, setModalRate] = useState(false);
@@ -326,39 +327,67 @@ export default function ServiceModal(props) {
             }
 
             <p className="price-modal">
-              $ {props.service.amount}{" "}
+              $ {props.service.amount}{" "}    
               <span className="price-detail">
-                (${props.service.duration_type == "0" ? props.service.translator?.rate_hour : props.service.translator?.rate_minute}
-                  /{props.service.duration_type == "0" ? "hr" : "min"}) x {props.service.duration_amount} + $5
+                {props.service.duration_type == "0" || props.service.duration_type == "1" ?
+                <>
+                (${props.service.duration_type == "0" ? props.service.translator?.rate_hour  : props.service.translator?.rate_minute}
+                /{props.service.duration_type == "0" ? "hr" : "min"}) x {props.service.duration_amount}
+                </>
+              :null}
+                {props.service.duration_type == "2" ?
+                <>
+                 {t('fullday')}
+                </>
+              :null}
+              {props.service.duration_type == "3" ?
+                <>
+                 {t('halfday')}
+                </>
+              :null}
+              {props.service.duration_type == "4"  ?
+                <>
+                (${props.service.translator?.rate_page}x{props.service.duration_amount})
+                </> 
+              :null}
+              {props.service.duration_type == "5"  ?
+                <>
+                (${props.service.translator?.s_rate_min}x{props.service.duration_amount})
+                </> 
+              :null}
+              {props.service.duration_type == "6"  ?
+                <>
+                (${props.service.translator?.v_rate_min}x{props.service.duration_amount})
+                </> 
+              :null}
+                 
               </span>
             </p>
-            {/* <p className="detail-modal-text">
-              <b>Cucumetro: </b>
-              <span>
-                {props.service.time_type === 0 ? "Servicio fijo" : "Minuto consumido"}
-              </span>
-            </p> */}
-            <p className="detail-modal-text">
-              <b>{t('request.service-site')}: </b>
-              <span>
-                {props.service.service_site == 1 ? t('request.external-platform') : t('request.zoom-cucu')}
-              </span>
-            </p>
-            <p className="detail-modal-text">
-              <b>{t('request-modal.rate-type')}: </b>
-              <span>
-                {props.service.duration_type === "0" ? t('hours') : t('minutes')}
-              </span>
-            </p>
-            <p className="detail-modal-text">
-              <b>{t('request-modal.duration')}:  </b>
-              <span>{props.service.duration_amount}</span>
-            </p>
-            <p className="detail-modal-text">
-              <b>{t('request-modal.start-date')}: </b>
-              <span> {moment(props.service.date).format("D MMM  YYYY")}</span>
-            </p>
+            
+            
+            {props.service.duration_type == '2' || props.service.duration_type == '3' ?
               <>
+                <p className="detail-modal-text">
+                  <b>{t('translators-list.service_type')} : </b>
+                  <span>
+                    {t('s_interpretation')}
+            </span>
+                </p>
+                <p className="detail-modal-text">
+                  <b>{t('request-modal.rate-type')}: </b>
+                  <span>
+                    {props.service.duration_type === "2" ? "Fullday" : "Halfday"  }
+                  </span>
+                </p>    
+                <p className="detail-modal-text">
+                  <b>{t('request-modal.start-date')}: </b>
+                  <span> {moment(props.service.date).format("D MMM  YYYY")}</span>
+                </p>
+                <p className="detail-modal-text">
+                  <b>Subservicio: </b>
+                  <span>{props.service.platform_other == "simultaneous" ? "simultaneous" : "consecutive"}</span>
+                </p>
+                <>
               { props.service?.url?.length>0 && ( props.service?.status == "2" || role == "client" ) ?
                 <URLLabel
                   type="button"
@@ -387,14 +416,212 @@ export default function ServiceModal(props) {
                 </URLLabel>
               : null}
 
-              </>  
+              </> 
+              </>
+              : null}
+            {props.service.duration_type == '0' || props.service.duration_type == '1' ?
+              <>
+                <p className="detail-modal-text">
+                  <b>{t('translators-list.service_type')} : </b>
+                  <span>
+                  {t('s_interpretation')}
+            </span>
+                </p>
+                <p className="detail-modal-text">
+                  <b>{t('request-modal.rate-type')}: </b>
+                  <span>
+                    {props.service.duration_type === "0" ? t('hours') : t('minutes')}
+                  </span>
+                </p>
+                <p className="detail-modal-text">
+                  <b>{t('request-modal.duration')}:  </b>
+                  <span>{props.service.duration_amount}</span>
+                </p>
+                <p className="detail-modal-text">
+                  <b>{t('request-modal.start-date')}: </b>
+                  <span> {moment(props.service.date).format("D MMM  YYYY")}</span>
+                </p>
+                <p className="detail-modal-text">
+                  <b>{t('subservice')} :</b>
+                  <span>{props.service.platform_other == "simultaneous" ? "simultaneous" : "consecutive"}</span>
+                </p>
+                <>
+              { props.service?.url?.length>0 && ( props.service?.status == "2" || role == "client" ) ?
+                <URLLabel
+                  type="button"
+                  className="url-button"
+                  onClick={() => {
+                    let url;
+                    if(newUrl){
+                      url = newUrl
+                    }else{
+                      url = props.service.url
+                    }
+                    window.open(url.includes("//") ? url : "//"+url);
+                  }}
+                >
+                  <img src="/assets/images/video-purple.png"></img>
+                  {t('request-modal.enter-session')}
+                </URLLabel>
+              : null}
+
+              { ( (  props.service?.status == "0" || props.service?.status == "1" || props.service?.status == "2" ) && role == "client" ) ?
+                <URLLabel className="url-edit-button"
+                  onClick={() => setModalEdit(true)}
+                >
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  {t('request-modal.edit-url')}
+                </URLLabel>
+              : null}
+
+              </> 
+              </>
+              : null}
+            {props.service.duration_type == '4'  ?
+            <>
+              <p className="detail-modal-text">
+                <b>{t('translators-list.service_type')} :</b>
+                <span>
+                  {t('written')}  
+          </span>
+              </p>
+              <p className="detail-modal-text">
+                <b>{t('request-modal.rate-type')}: </b>
+                <span>
+                  {t('translator-profile.rate_page')}
+                </span>
+              </p>
+              <p className="detail-modal-text">
+                <b>{t('request.pages')} </b>
+                <span>{props.service.duration_amount}</span>
+              </p>
+              <p className="detail-modal-text">
+                <b>{t('request-modal.start-date')}: </b>
+                <span> {moment(props.service.date).format("D MMM  YYYY")}</span>
+              </p>
+              <p className="detail-modal-text">
+                  <b>{t('subservice')} :</b>
+                  <span>{props.service.platform_other == "sworn" ? "sworn" : "notsworn"}</span>
+                </p>
+              <>
+            { props.service?.url?.length>0 && ( props.service?.status == "2" || role == "client" ) ?
+              <URLLabel
+                type="button"
+                className="url-button"
+                onClick={() => {
+                  let url;
+                  if(newUrl){
+                    url = newUrl
+                  }else{
+                    url = props.service.url
+                  }
+                  window.open(url.includes("//") ? url : "//"+url);
+                }}
+              >
+                  
+                  {t('request-list.donwload')}
+              </URLLabel>
+            : null}
+            </> 
+            </>
+            : null}
+            {props.service.duration_type == '5'  ?
+            <>
+              <p className="detail-modal-text">
+                <b>{t('translators-list.service_type')} :</b>
+                <span>
+                  {t('subtitling')} 
+          </span>
+              </p>
+              <p className="detail-modal-text">
+                <b>{t('request-modal.rate-type')}: </b>
+                <span>
+                  {t('translator-profile.value_minute')}
+                </span>
+              </p>
+              <p className="detail-modal-text">
+                <b>Minutos:  </b>
+                <span>{props.service.duration_amount}</span>
+              </p>
+              <p className="detail-modal-text">
+                <b>{t('request-modal.start-date')}: </b>
+                <span> {moment(props.service.date).format("D MMM  YYYY")}</span>
+              </p>
+              <>
+            { props.service?.url?.length>0 && ( props.service?.status == "2" || role == "client" ) ?
+              <URLLabel
+                type="button"
+                className="url-button"
+                onClick={() => {
+                  let url;
+                  if(newUrl){
+                    url = newUrl
+                  }else{
+                    url = props.service.url
+                  }
+                  window.open(url.includes("//") ? url : "//"+url);
+                }}
+              >
+                  
+                  {t('request-list.donwload')}
+              </URLLabel>
+            : null}
+            </> 
+            </>
+            : null}
+            {props.service.duration_type == '6'  ?
+            <>
+              <p className="detail-modal-text">
+                <b>{t('translators-list.service_type')} : </b>
+                <span>
+                  Voiceover
+          </span>
+              </p>
+              <p className="detail-modal-text">
+                <b>{t('request-modal.rate-type')}: </b>
+                <span>
+                {t('translator-profile.value_minute')}
+                </span>
+              </p>
+              <p className="detail-modal-text">
+                <b>Minutos:  </b>
+                <span>{props.service.duration_amount}</span>
+              </p>
+              <p className="detail-modal-text">
+                <b>{t('request-modal.start-date')}: </b>
+                <span> {moment(props.service.date).format("D MMM  YYYY")}</span>
+              </p>
+              <>
+            { props.service?.url?.length>0 && ( props.service?.status == "2" || role == "client" ) ?
+              <URLLabel
+                type="button"
+                className="url-button"
+                onClick={() => {
+                  let url;
+                  if(newUrl){
+                    url = newUrl
+                  }else{
+                    url = props.service.url
+                  }
+                  window.open(url.includes("//") ? url : "//"+url);
+                }}
+              >
+                  
+                  {t('request-list.donwload')}
+              </URLLabel>
+            : null}
+            </> 
+            </>
+            : null}
+              
+
             <hr></hr>
             <p className="detail-modal-text">{t('request-modal.attached')}</p>
             <div className="container-files">
               {(props.service.files_urls?.length) ? props.service.files_urls?.map((file, index) => (
                 <a key={index} href={file.url}>
                   <span className="file">
-                    <i className="fa fa-file margin-file"></i>{file.name}
+                    <i className="fa fa-file margin-file"></i>{file.name} 
                   </span>
                 </a>
               )) :

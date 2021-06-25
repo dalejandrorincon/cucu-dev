@@ -37,7 +37,7 @@ async function index(req, res) {
     } = req;
 
     try {
-        const services = await servicesRepository.getServices(page, page_limit, name, status, service_site, service_type, client_id, translator_id, amount, min_date, max_date, sort_by, sort_order);
+        const services = await servicesRepository.getServices(page, page_limit, name, status, sub_service,service_site, service_type, client_id, translator_id, amount, min_date, max_date, sort_by, sort_order);
         return res.status(200).send({
             ...services,
             page: parseInt(page),
@@ -203,12 +203,26 @@ async function store(req, res) {
             console.log(parseFloat(user.rate_minute))
             switch (body.duration_type) {
                 case "0":
-                    total = parseFloat(user.rate_hour) * parseFloat(body.duration_amount) + 5
+                    total = parseFloat(user.rate_hour) * parseFloat(body.duration_amount)   
                     break;
-            
                 case "1":
-                    total = parseFloat(user.rate_minute) * parseFloat(body.duration_amount) + 5
+                    total = parseFloat(user.rate_minute) * parseFloat(body.duration_amount)
                     break;
+                case "2":
+                    total = parseFloat(user.full_day)
+                    break;
+                case "3":
+                    total = parseFloat(user.half_day)
+                    break;
+                case "4":
+                total = parseFloat(user.rate_page) * parseFloat(body.duration_amount)
+                break;
+                case "5":
+                total = parseFloat(user.s_rate_min) * parseFloat(body.duration_amount)
+                break;
+                case "6":
+                total = parseFloat(user.v_rate_min) * parseFloat(body.duration_amount)
+                break;
             }
             
             const sender = await usersRepository.findById(body.translator_id);
